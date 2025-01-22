@@ -413,10 +413,11 @@ footer {
                 </div>
                 <div class="col">
                     <select id="method">
-                        <option value="caesar">Caesar Cipher</option>
-                        <option value="playfair">Playfair Cipher</option>
-                        <option value="transposition">Transposition Cipher</option>
-                    </select>
+                     <option value="caesar">Caesar Cipher</option>
+                     <option value="monoalpha">Monoalphabetic Cipher</option>
+                     <option value="playfair">Playfair Cipher</option>
+                     <option value="transposition">Transposition Cipher</option>
+                  </select>
                 </div>
             </div>
             
@@ -723,6 +724,36 @@ function transpositionDecrypt(text, key) {
     
     return result;
 }
+
+	    function monoalphabeticCipher(text, key, encrypt = true) {
+    key = key.toUpperCase().replace(/[^A-Z]/g, '');
+    if (key.length !== 26 || new Set(key).size !== 26) {
+        throw new Error("Key must contain all 26 letters of the alphabet exactly once");
+    }
+
+    const normalAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const codedAlphabet = key;
+    
+    text = text.toUpperCase();
+    let result = '';
+
+    for (let char of text) {
+        if (char.match(/[A-Z]/)) {
+            let index;
+            if (encrypt) {
+                index = normalAlphabet.indexOf(char);
+                result += codedAlphabet[index];
+            } else {
+                index = codedAlphabet.indexOf(char);
+                result += normalAlphabet[index];
+            }
+        } else {
+            result += char;
+        }
+    }
+    
+    return result;
+}
 	    
         document.getElementById('fileInput').addEventListener('change', async (e) => {
             const file = e.target.files[0];
@@ -806,13 +837,14 @@ function processText() {
         } else if (method === 'playfair') {
             result = playfairCipher(processedInput, key, operation === 'encrypt');
         } else if (method === 'transposition') {
-            // Check if key is a valid number
             const numKey = parseInt(key);
             if (isNaN(numKey) || numKey <= 0) {
                 throw new Error("Key must be a positive number");
             }
             result = transpositionCipher(processedInput, numKey, operation === 'encrypt');
-        }
+        } else if (method === 'monoalpha') {
+                    result = monoalphabeticCipher(processedInput, key, operation === 'encrypt');
+               }
         
         document.getElementById('result').textContent = result;
         document.getElementById('downloadBtn').style.display = 'block';
@@ -858,6 +890,49 @@ function processText() {
                 successDiv.style.display = 'none';
             }, 5000);
         }
+
+	    function monoalphabeticCipher(text, key, encrypt = true) {
+    key = key.toUpperCase().replace(/[^A-Z]/g, '');
+    if (key.length !== 26 || new Set(key).size !== 26) {
+        throw new Error("Key must contain all 26 letters of the alphabet exactly once");
+    }
+
+    const normalAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const codedAlphabet = key;
+    
+    text = text.toUpperCase();
+    let result = '';
+
+    for (let char of text) {
+        if (char.match(/[A-Z]/)) {
+            let index;
+            if (encrypt) {
+                index = normalAlphabet.indexOf(char);
+                result += codedAlphabet[index];
+            } else {
+                index = codedAlphabet.indexOf(char);
+                result += normalAlphabet[index];
+            }
+        } else {
+            result += char;
+        }
+    }
+    
+    return result;
+}
+
+        document.getElementById('method').addEventListener('change', function() {
+        const keyInput = document.getElementById('key');
+        if (this.value === 'monoalpha') {
+        keyInput.placeholder = "Enter all 26 letters (e.g., QWERTYUIOPASDFGHJKLZXCVBNM)";
+        } else if (this.value === 'caesar') {
+            keyInput.placeholder = "Enter a number";
+        } else if (this.value === 'playfair') {
+            keyInput.placeholder = "Enter encryption/decryption key";
+        } else if (this.value === 'transposition') {
+            keyInput.placeholder = "Enter a numeric key";
+        }
+    });
     </script>
 </body>
 </html>
