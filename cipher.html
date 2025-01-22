@@ -625,6 +625,79 @@ function transpositionCipher(text, key, encrypt = true) {
     }
 }
 
+	    function transpositionEncrypt(text, key) {
+    text = preprocessText(text);
+    if (!text || !key) return "Error: Empty input";
+    
+    // Process the key and text
+    const keyOrder = processKey(key);
+    const keyLength = keyOrder.length;
+    const textLength = text.length;
+    const rows = Math.ceil(textLength / keyLength);
+    
+    // Create and fill matrix
+    let matrix = Array(rows).fill().map(() => Array(keyLength).fill('X'));
+    let index = 0;
+    for (let i = 0; i < rows && index < textLength; i++) {
+        for (let j = 0; j < keyLength && index < textLength; j++) {
+            matrix[i][j] = text[index++];
+        }
+    }
+    
+    // Read off by columns according to key
+    let result = "";
+    for (let k = 1; k <= keyLength; k++) {
+        for (let i = 0; i < keyLength; i++) {
+            if (keyOrder[i] === k) {
+                for (let j = 0; j < rows; j++) {
+                    result += matrix[j][i];
+                }
+            }
+        }
+    }
+    
+    return result;
+}
+
+function transpositionDecrypt(text, key) {
+    text = preprocessText(text);
+    if (!text || !key) return "Error: Empty input";
+    
+    // Process the key
+    const keyOrder = processKey(key);
+    const keyLength = keyOrder.length;
+    const textLength = text.length;
+    
+    if (textLength % keyLength !== 0) {
+        return "Error: Invalid text length";
+    }
+    
+    const rows = textLength / keyLength;
+    let matrix = Array(rows).fill().map(() => Array(keyLength).fill(''));
+    
+    // Fill matrix by columns according to key
+    let index = 0;
+    for (let k = 1; k <= keyLength; k++) {
+        for (let i = 0; i < keyLength; i++) {
+            if (keyOrder[i] === k) {
+                for (let j = 0; j < rows; j++) {
+                    matrix[j][i] = text[index++];
+                }
+            }
+        }
+    }
+    
+    // Read matrix row by row
+    let result = "";
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < keyLength; j++) {
+            result += matrix[i][j];
+        }
+    }
+    
+    return result;
+}
+	    
         document.getElementById('fileInput').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (file) {
@@ -643,7 +716,49 @@ function transpositionCipher(text, key, encrypt = true) {
                 }
             }
         });
+        function removeSpaces(text) {
+    let result = "";
+    for(let i = 0; i < text.length; i++) {
+        if(text[i] !== ' ') {
+            result += text[i];
+        }
+    }
+    return result;
+}
+
+function processKey(key) {
+    let len = key.length;
+    let colVal = new Array(len);
+    
+    // Check if key is numeric
+    let isNumeric = true;
+    for(let c of key) {
+        if(isNaN(c)) {
+            isNumeric = false;
+            break;
+        }
+    }
+    
+    if(isNumeric) {
+        for(let i = 0; i < len; i++) {
+            colVal[i] = parseInt(key[i]);
+        }
+    } else {
+        let temp = [];
+        for(let i = 0; i < len; i++) {
+            temp.push({char: key[i].toUpperCase(), index: i});
+        }
         
+        temp.sort((a, b) => a.char.localeCompare(b.char));
+        
+        for(let i = 0; i < len; i++) {
+            colVal[temp[i].index] = i + 1;
+        }
+    }
+    
+    return colVal;
+}
+	    
         function processText() {
             const input = document.getElementById('input').value;
             const operation = document.getElementById('operation').value;
@@ -666,6 +781,10 @@ function transpositionCipher(text, key, encrypt = true) {
                     result = playfairCipher(processedInput, key, operation === 'encrypt');
                 } else if (method === 'transposition') {
                     result = transpositionCipher(processedInput, key, operation === 'encrypt');
+                } else if (method === "transposition") {
+                    result = operation === "encrypt" ? 
+                    transpositionEncrypt(text, key) : 
+                    transpositionDecrypt(text, key);
                 }
                 
                 document.getElementById('result').textContent = result;
