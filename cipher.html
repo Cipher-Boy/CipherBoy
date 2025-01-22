@@ -625,7 +625,7 @@ function transpositionCipher(text, key, encrypt = true) {
     }
 }
 
-	    function transpositionEncrypt(text, key) {
+function transpositionEncrypt(text, key) {
     text = preprocessText(text);
     if (!text || !key) return "Error: Empty input";
     
@@ -635,12 +635,17 @@ function transpositionCipher(text, key, encrypt = true) {
     const textLength = text.length;
     const rows = Math.ceil(textLength / keyLength);
     
-    // Create and fill matrix
-    let matrix = Array(rows).fill().map(() => Array(keyLength).fill('X'));
+    // Create and fill matrix, but only pad with X when necessary
+    let matrix = Array(rows).fill().map(() => Array(keyLength).fill(''));
     let index = 0;
-    for (let i = 0; i < rows && index < textLength; i++) {
-        for (let j = 0; j < keyLength && index < textLength; j++) {
-            matrix[i][j] = text[index++];
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < keyLength; j++) {
+            if (index < textLength) {
+                matrix[i][j] = text[index++];
+            } else if (i === rows - 1) {
+                // Only add X padding in the last row if needed
+                matrix[i][j] = 'X';
+            }
         }
     }
     
@@ -650,7 +655,9 @@ function transpositionCipher(text, key, encrypt = true) {
         for (let i = 0; i < keyLength; i++) {
             if (keyOrder[i] === k) {
                 for (let j = 0; j < rows; j++) {
-                    result += matrix[j][i];
+                    if (matrix[j][i] !== '') {  // Only add non-empty cells
+                        result += matrix[j][i];
+                    }
                 }
             }
         }
