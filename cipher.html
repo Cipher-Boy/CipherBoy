@@ -569,28 +569,30 @@ function transpositionCipher(text, key, encrypt = true) {
     }
     
     text = preprocessText(text);
+    if (!text) return '';
+    
     const numColumns = numKey;
     
     if (encrypt) {
-        // Pad the text if necessary
-        while (text.length % numColumns !== 0) {
-            text += 'X';
-        }
-        
         // Create the matrix
         const numRows = Math.ceil(text.length / numColumns);
-        const matrix = [];
+        const matrix = Array(numRows).fill().map(() => Array(numColumns).fill(''));
         
-        // Fill the matrix row by row
-        for (let i = 0; i < numRows; i++) {
-            matrix[i] = text.substr(i * numColumns, numColumns).split('');
+        // Fill the matrix with actual text only
+        let pos = 0;
+        for (let i = 0; i < text.length; i++) {
+            const row = Math.floor(i / numColumns);
+            const col = i % numColumns;
+            matrix[row][col] = text[i];
         }
         
-        // Read off column by column
+        // Read off column by column - only read actual text
         let result = '';
         for (let col = 0; col < numColumns; col++) {
             for (let row = 0; row < numRows; row++) {
-                result += matrix[row][col] || '';
+                if (matrix[row][col] && matrix[row][col] !== '') {
+                    result += matrix[row][col];
+                }
             }
         }
         
@@ -600,22 +602,19 @@ function transpositionCipher(text, key, encrypt = true) {
         const numRows = Math.ceil(text.length / numColumns);
         const matrix = Array(numRows).fill().map(() => Array(numColumns).fill(''));
         
-        // Calculate positions
+        // Fill matrix by columns
         let pos = 0;
-        for (let col = 0; col < numColumns; col++) {
-            for (let row = 0; row < numRows; row++) {
-                if (pos < text.length) {
-                    matrix[row][col] = text[pos];
-                    pos++;
-                }
+        for (let col = 0; col < numColumns && pos < text.length; col++) {
+            for (let row = 0; row < numRows && pos < text.length; row++) {
+                matrix[row][col] = text[pos++];
             }
         }
         
-        // Read row by row
+        // Read row by row, only including actual characters
         let result = '';
         for (let row = 0; row < numRows; row++) {
             for (let col = 0; col < numColumns; col++) {
-                if (matrix[row][col]) {
+                if (matrix[row][col] && matrix[row][col] !== '') {
                     result += matrix[row][col];
                 }
             }
@@ -624,7 +623,7 @@ function transpositionCipher(text, key, encrypt = true) {
         return result;
     }
 }
-
+	    
 function transpositionEncrypt(text, key) {
     text = preprocessText(text);
     if (!text || !key) return "Error: Empty input";
