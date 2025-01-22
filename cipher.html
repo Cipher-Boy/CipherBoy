@@ -579,19 +579,19 @@ function transpositionCipher(text, key, encrypt = true) {
         const matrix = Array(numRows).fill().map(() => Array(numColumns).fill(''));
         
         // Fill the matrix with actual text only
-        let pos = 0;
+        let index = 0;
         for (let i = 0; i < text.length; i++) {
             const row = Math.floor(i / numColumns);
             const col = i % numColumns;
             matrix[row][col] = text[i];
         }
         
-        // Read off column by column - only read actual text
+        // Read off column by column - only for filled cells
         let result = '';
         for (let col = 0; col < numColumns; col++) {
             for (let row = 0; row < numRows; row++) {
-                if (matrix[row][col] && matrix[row][col] !== '') {
-                    result += matrix[row][col];
+                if (index < text.length) {
+                    result += matrix[row][col] || '';
                 }
             }
         }
@@ -599,22 +599,25 @@ function transpositionCipher(text, key, encrypt = true) {
         return result;
         
     } else {  // decrypt
+        const actualLength = text.length;
         const numRows = Math.ceil(text.length / numColumns);
         const matrix = Array(numRows).fill().map(() => Array(numColumns).fill(''));
         
-        // Fill matrix by columns
+        // Fill matrix by columns, only with actual text
         let pos = 0;
         for (let col = 0; col < numColumns && pos < text.length; col++) {
-            for (let row = 0; row < numRows && pos < text.length; row++) {
-                matrix[row][col] = text[pos++];
+            for (let row = 0; row < numRows; row++) {
+                if (pos < actualLength) {
+                    matrix[row][col] = text[pos++];
+                }
             }
         }
         
-        // Read row by row, only including actual characters
+        // Read row by row, only actual text
         let result = '';
         for (let row = 0; row < numRows; row++) {
             for (let col = 0; col < numColumns; col++) {
-                if (matrix[row][col] && matrix[row][col] !== '') {
+                if (matrix[row][col]) {
                     result += matrix[row][col];
                 }
             }
