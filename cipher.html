@@ -768,41 +768,42 @@ function processKey(key) {
     return colVal;
 }
 	    
-        function processText() {
-            const input = document.getElementById('input').value;
-            const operation = document.getElementById('operation').value;
-            const method = document.getElementById('method').value;
-            const key = document.getElementById('key').value;
-            
-            if (!input || !key) {
-                showError('Please fill in all fields');
-                return;
+function processText() {
+    const input = document.getElementById('input').value;
+    const operation = document.getElementById('operation').value;
+    const method = document.getElementById('method').value;
+    const key = document.getElementById('key').value;
+    
+    if (!input || !key) {
+        showError('Please fill in all fields');
+        return;
+    }
+    
+    const processedInput = preprocessText(input);
+    let result = '';
+    
+    try {
+        if (method === 'caesar') {
+            const shift = parseInt(key, 10) * (operation === 'decrypt' ? -1 : 1);
+            result = caesarCipher(processedInput, shift);
+        } else if (method === 'playfair') {
+            result = playfairCipher(processedInput, key, operation === 'encrypt');
+        } else if (method === 'transposition') {
+            // Check if key is a valid number
+            const numKey = parseInt(key);
+            if (isNaN(numKey) || numKey <= 0) {
+                throw new Error("Key must be a positive number");
             }
-            
-            const processedInput = preprocessText(input);
-            let result = '';
-            
-            try {
-                if (method === 'caesar') {
-                    const shift = parseInt(key, 10) * (operation === 'decrypt' ? -1 : 1);
-                    result = caesarCipher(processedInput, shift);
-                } else if (method === 'playfair') {
-                    result = playfairCipher(processedInput, key, operation === 'encrypt');
-                } else if (method === 'transposition') {
-                    result = transpositionCipher(processedInput, key, operation === 'encrypt');
-                } else if (method === "transposition") {
-                    result = operation === "encrypt" ? 
-                    transpositionEncrypt(text, key) : 
-                    transpositionDecrypt(text, key);
-                }
-                
-                document.getElementById('result').textContent = result;
-                document.getElementById('downloadBtn').style.display = 'block';
-                showSuccess('Text processed successfully!');
-            } catch (error) {
-                showError('Error processing text: ' + error.message);
-            }
+            result = transpositionCipher(processedInput, numKey, operation === 'encrypt');
         }
+        
+        document.getElementById('result').textContent = result;
+        document.getElementById('downloadBtn').style.display = 'block';
+        showSuccess('Text processed successfully!');
+    } catch (error) {
+        showError('Error processing text: ' + error.message);
+    }
+}
         
         function downloadResult() {
             const result = document.getElementById('result').textContent;
