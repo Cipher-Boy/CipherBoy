@@ -562,76 +562,65 @@ footer {
         }
 
 function transpositionCipher(text, key, encrypt = true) {
-    // Preprocess text and key
-    text = preprocessText(text);
-    key = preprocessText(key);
-    
-    if (!text || !key) return '';
-    
-    // Create numerical key sequence
-    let keySequence = [];
-    let sortedKey = [...key].sort();
-    for (let i = 0; i < key.length; i++) {
-        keySequence.push(sortedKey.indexOf(key[i]));
-        sortedKey[sortedKey.indexOf(key[i])] = null;
+    // Convert key to number if it's a string of digits
+    const numKey = parseInt(key);
+    if (isNaN(numKey)) {
+        throw new Error("Key must be a number");
     }
     
+    text = preprocessText(text);
+    const numColumns = numKey;
+    
     if (encrypt) {
-        // Calculate dimensions
-        let numRows = Math.ceil(text.length / key.length);
-        let numCols = key.length;
+        // Pad the text if necessary
+        while (text.length % numColumns !== 0) {
+            text += 'X';
+        }
         
-        // Create matrix and fill with text
-        let matrix = new Array(numRows).fill().map(() => new Array(numCols).fill(''));
-        let textPos = 0;
+        // Create the matrix
+        const numRows = Math.ceil(text.length / numColumns);
+        const matrix = [];
+        
+        // Fill the matrix row by row
         for (let i = 0; i < numRows; i++) {
-            for (let j = 0; j < numCols; j++) {
-                if (textPos < text.length) {
-                    matrix[i][j] = text[textPos];
-                    textPos++;
-                } else {
-                    matrix[i][j] = 'X';
-                }
+            matrix[i] = text.substr(i * numColumns, numColumns).split('');
+        }
+        
+        // Read off column by column
+        let result = '';
+        for (let col = 0; col < numColumns; col++) {
+            for (let row = 0; row < numRows; row++) {
+                result += matrix[row][col] || '';
             }
         }
         
-        // Read off by columns according to key sequence
-        let result = '';
-        for (let i = 0; i < numCols; i++) {
-            let position = keySequence.indexOf(i);
-            for (let j = 0; j < numRows; j++) {
-                result += matrix[j][position];
-            }
-        }
         return result;
         
     } else {  // decrypt
-        // Calculate dimensions
-        let numRows = Math.ceil(text.length / key.length);
-        let numCols = key.length;
+        const numRows = Math.ceil(text.length / numColumns);
+        const matrix = Array(numRows).fill().map(() => Array(numColumns).fill(''));
         
-        // Create and fill matrix by columns according to key sequence
-        let matrix = new Array(numRows).fill().map(() => new Array(numCols).fill(''));
-        let textPos = 0;
-        for (let i = 0; i < numCols; i++) {
-            let position = keySequence.indexOf(i);
-            for (let j = 0; j < numRows; j++) {
-                if (textPos < text.length) {
-                    matrix[j][position] = text[textPos];
-                    textPos++;
+        // Calculate positions
+        let pos = 0;
+        for (let col = 0; col < numColumns; col++) {
+            for (let row = 0; row < numRows; row++) {
+                if (pos < text.length) {
+                    matrix[row][col] = text[pos];
+                    pos++;
                 }
             }
         }
         
-        // Read matrix row by row
+        // Read row by row
         let result = '';
-        for (let i = 0; i < numRows; i++) {
-            for (let j = 0; j < numCols; j++) {
-                if (matrix[i][j] !== '') {
-                    result += matrix[i][j];
+        for (let row = 0; row < numRows; row++) {
+            for (let col = 0; col < numColumns; col++) {
+                if (matrix[row][col]) {
+                    result += matrix[row][col];
                 }
             }
         }
+        
         return result;
     }
 }
