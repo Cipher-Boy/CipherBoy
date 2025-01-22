@@ -561,27 +561,80 @@ footer {
             return matrix[ax][ay] + matrix[bx][by];
         }
 
-        function transpositionCipher(text, key, encrypt = true) {
-            key = preprocessText(key);
-            let order = [...key].map((char, i) => [char, i]).sort();
-            let rows = Math.ceil(text.length / key.length);
-            let matrix = Array.from({ length: rows }, () => Array(key.length).fill('X'));
-
-            if (encrypt) {
-                text.split('').forEach((char, i) => {
-                    matrix[Math.floor(i / key.length)][i % key.length] = char;
-                });
-                return order.map(([_, col]) => matrix.map(row => row[col]).join('')).join('');
-            } else {
-                let index = 0;
-                order.forEach(([_, col]) => {
-                    for (let row = 0; row < rows; row++) {
-                        matrix[row][col] = text[index++] || 'X';
-                    }
-                });
-                return matrix.map(row => row.join('')).join('');
+function transpositionCipher(text, key, encrypt = true) {
+    // Preprocess text and key
+    text = preprocessText(text);
+    key = preprocessText(key);
+    
+    if (!text || !key) return '';
+    
+    // Create numerical key sequence
+    let keySequence = [];
+    let sortedKey = [...key].sort();
+    for (let i = 0; i < key.length; i++) {
+        keySequence.push(sortedKey.indexOf(key[i]));
+        sortedKey[sortedKey.indexOf(key[i])] = null;
+    }
+    
+    if (encrypt) {
+        // Calculate dimensions
+        let numRows = Math.ceil(text.length / key.length);
+        let numCols = key.length;
+        
+        // Create matrix and fill with text
+        let matrix = new Array(numRows).fill().map(() => new Array(numCols).fill(''));
+        let textPos = 0;
+        for (let i = 0; i < numRows; i++) {
+            for (let j = 0; j < numCols; j++) {
+                if (textPos < text.length) {
+                    matrix[i][j] = text[textPos];
+                    textPos++;
+                } else {
+                    matrix[i][j] = 'X';
+                }
             }
         }
+        
+        // Read off by columns according to key sequence
+        let result = '';
+        for (let i = 0; i < numCols; i++) {
+            let position = keySequence.indexOf(i);
+            for (let j = 0; j < numRows; j++) {
+                result += matrix[j][position];
+            }
+        }
+        return result;
+        
+    } else {  // decrypt
+        // Calculate dimensions
+        let numRows = Math.ceil(text.length / key.length);
+        let numCols = key.length;
+        
+        // Create and fill matrix by columns according to key sequence
+        let matrix = new Array(numRows).fill().map(() => new Array(numCols).fill(''));
+        let textPos = 0;
+        for (let i = 0; i < numCols; i++) {
+            let position = keySequence.indexOf(i);
+            for (let j = 0; j < numRows; j++) {
+                if (textPos < text.length) {
+                    matrix[j][position] = text[textPos];
+                    textPos++;
+                }
+            }
+        }
+        
+        // Read matrix row by row
+        let result = '';
+        for (let i = 0; i < numRows; i++) {
+            for (let j = 0; j < numCols; j++) {
+                if (matrix[i][j] !== '') {
+                    result += matrix[i][j];
+                }
+            }
+        }
+        return result;
+    }
+}
 
         document.getElementById('fileInput').addEventListener('change', async (e) => {
             const file = e.target.files[0];
