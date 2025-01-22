@@ -144,6 +144,23 @@ footer {
 
 @media (max-width: 768px) {
     .footer-content {
+        margin: 0;
+        width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+    
+    footer {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        bottom: 0;
+    }
+}
+	    
+@media (max-width: 768px) {
+    .footer-content {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
@@ -160,8 +177,8 @@ footer {
     .footer-section h3 {
         font-size: 0.9rem;
         margin-bottom: 0.5rem;
-        text-align: left;  /* Changed from center to left */
-        padding-left: 0.5rem;  /* Added padding for better alignment */
+        text-align: left;  
+        padding-left: 0.5rem; 
     }
 
     .footer-section ul {
@@ -171,8 +188,8 @@ footer {
     .footer-section ul li {
         font-size: 0.8rem;
         margin-bottom: 0.25rem;
-        text-align: left;  /* Changed from center to left */
-        padding-left: 0.5rem;  /* Added padding for better alignment */
+        text-align: left;  
+        padding-left: 0.5rem;  
     }
 
     .copyright {
@@ -193,7 +210,7 @@ footer {
         }
         
         .container {
-    padding-top: 100px; /* Add space below the fixed navbar */
+    padding-top: 100px; 
     max-width: 1200px;
     margin: 0 auto;
     padding-bottom: 4rem;
@@ -300,14 +317,18 @@ footer {
         }
 
         #result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: var(--input-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 5px;
-            min-height: 100px;
-            font-family: 'Consolas', monospace;
-        }
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--input-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    min-height: 100px;
+    font-family: 'Consolas', monospace;
+    white-space: pre-wrap;    
+    word-wrap: break-word;    
+    overflow-wrap: break-word;  
+    max-width: 100%;            
+}
         
         .message {
             margin: 10px 0;
@@ -438,17 +459,17 @@ footer {
     </div>
 </footer>
     <script>
-    // Add this before your existing script
+    
     let lastScrollY = window.scrollY;
     
     window.addEventListener("scroll", () => {
         const navbar = document.querySelector(".navbar");
         
         if (lastScrollY < window.scrollY) {
-            // Scrolling down
+            
             navbar.classList.add("hidden");
         } else {
-            // Scrolling up
+            
             navbar.classList.remove("hidden");
         }
         
@@ -465,10 +486,16 @@ footer {
         }
 
         function playfairCipher(text, key, encrypt = true) {
-            let matrix = generatePlayfairMatrix(key);
-            let pairs = preparePlayfairPairs(preprocessText(text), encrypt);
-            return pairs.map(pair => processPlayfairPair(pair, matrix, encrypt)).join('');
-        }
+    let matrix = generatePlayfairMatrix(key);
+    let pairs = preparePlayfairPairs(preprocessText(text), encrypt);
+    let result = pairs.map(pair => processPlayfairPair(pair, matrix, encrypt)).join('');
+       
+    if (encrypt) {
+        result = result.match(/.{2}/g).join(' ');
+    }
+    
+    return result;
+}
 
         function generatePlayfairMatrix(key) {
             let matrix = [];
