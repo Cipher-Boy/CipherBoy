@@ -562,72 +562,79 @@ footer {
         }
 
 function transpositionCipher(text, key, encrypt = true) {
-    // Convert key to number array representing column order
+    // Validate and convert key to array of numbers
     const keyArray = key.toString().split('').map(Number);
-    const keyLength = keyArray.length;
+    if (keyArray.some(isNaN)) {
+        throw new Error("Key must consist of numbers only");
+    }
     
-    // Validate key
-    if (keyArray.some(isNaN) || keyLength === 0) {
-        throw new Error("Key must be a number");
+    // Validate key sequence
+    const keySet = new Set(keyArray);
+    if (keySet.size !== keyArray.length || 
+        !keyArray.every(num => num >= 1 && num <= keyArray.length)) {
+        throw new Error("Key must be a valid permutation (e.g., '312' or '1432')");
     }
 
     text = preprocessText(text);
     if (!text) return '';
 
-    if (encrypt) {
-        // Calculate number of rows needed
-        const numRows = Math.ceil(text.length / keyLength);
-        
-        // Create and fill matrix row by row
-        const matrix = Array(numRows).fill().map(() => Array(keyLength).fill(''));
-        let pos = 0;
-        
-        // Fill matrix row by row with input text
-        for (let row = 0; row < numRows && pos < text.length; row++) {
-            for (let col = 0; col < keyLength && pos < text.length; col++) {
-                matrix[row][col] = text[pos++];
-            }
-        }
+    const keyLength = keyArray.length;
 
-        // Read off columns according to key order
-        let result = '';
-        // Find position of each number 1 through keyLength
-        for (let k = 1; k <= keyLength; k++) {
-            const col = keyArray.indexOf(k);
-            // Read that column from top to bottom
-            for (let row = 0; row < numRows; row++) {
-                if (matrix[row][col]) {
-                    result += matrix[row][col];
+    if (encrypt) {
+        // Calculate dimensions
+        const numRows = Math.ceil(text.length / keyLength);
+        const matrix = Array(numRows).fill().map(() => Array(keyLength).fill(''));
+        
+        // Fill matrix row by row
+        let textPos = 0;
+        for (let row = 0; row < numRows; row++) {
+            for (let col = 0; col < keyLength; col++) {
+                if (textPos < text.length) {
+                    matrix[row][col] = text[textPos++];
+                } else {
+                    matrix[row][col] = 'X'; // Pad with X if needed
                 }
             }
         }
-        
+
+        // Create a mapping of key numbers to their positions
+        const keyMap = {};
+        keyArray.forEach((num, index) => {
+            keyMap[num] = index;
+        });
+
+        // Read columns according to key sequence
+        let result = '';
+        for (let k = 1; k <= keyLength; k++) {
+            const col = keyMap[k];
+            for (let row = 0; row < numRows; row++) {
+                result += matrix[row][col];
+            }
+        }
+
         return result;
 
-    } else {  // decrypt
+    } else {  // Decrypt
         const numRows = Math.ceil(text.length / keyLength);
         const matrix = Array(numRows).fill().map(() => Array(keyLength).fill(''));
         
-        // Calculate column lengths (last row may be incomplete)
-        const fullRows = Math.floor(text.length / keyLength);
-        const remainingChars = text.length % keyLength;
+        // Calculate chars per column
+        const charsPerCol = Math.ceil(text.length / keyLength);
         
         // Fill matrix column by column according to key
         let pos = 0;
         for (let k = 1; k <= keyLength; k++) {
             const col = keyArray.indexOf(k);
-            // Determine how many chars go in this column
-            const colLength = col < remainingChars ? fullRows + 1 : fullRows;
-            for (let row = 0; row < colLength; row++) {
+            for (let row = 0; row < numRows && pos < text.length; row++) {
                 matrix[row][col] = text[pos++];
             }
         }
         
-        // Read matrix row by row
+        // Read row by row for decrypted result
         let result = '';
         for (let row = 0; row < numRows; row++) {
             for (let col = 0; col < keyLength; col++) {
-                if (matrix[row][col]) {
+                if (matrix[row][col] && matrix[row][col] !== 'X') {
                     result += matrix[row][col];
                 }
             }
