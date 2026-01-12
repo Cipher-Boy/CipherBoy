@@ -405,31 +405,17 @@
         text-shadow: 0 0 10px rgba(69, 255, 69, 0.7);
     }
 
-    .instructions-modal {
+.instructions-modal {
+        display: none;
         position: absolute;
-        top: 60px;
-        right: 0;
-        width: 350px;
-        background: rgba(26, 26, 26, 0.95);
+        top: 50px; right: 0;
+        width: 300px;
+        background: #1a1a1a;
         border: 2px solid #45ff45;
-        border-radius: 12px;
-        box-shadow: 
-            0 10px 30px rgba(0, 0, 0, 0.3),
-            0 0 20px rgba(69, 255, 69, 0.3);
-        backdrop-filter: blur(10px);
-        overflow: hidden;
-        transition: all 0.3s ease;
-        transform-origin: top right;
-        transform: scale(0.8) translateY(-20px);
-        opacity: 0;
-        visibility: hidden;
+        padding: 20px;
+        border-radius: 10px;
     }
-
-    .instructions-modal.show {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-        visibility: visible;
-    }
+    .instructions-modal.show { display: block; }
 
     .instructions-modal-header {
         background: rgba(69, 255, 69, 0.1);
@@ -535,40 +521,43 @@
     </div>
 </nav>
 
-<div class="help-container">
-    <button onclick="toggleInstructions()" class="help-btn" title="How to Use">
-        <span class="help-icon">?</span>
-    </button>
-    
-    <div id="instructionsModal" class="instructions-modal">
-        <div class="instructions-modal-header">
-            <h3>
-                <span class="icon">📘</span>
-                How to Use CipherBoy
-            </h3>
-        </div>
-        <div class="instructions-modal-body">
-            <ol>
-                <li>Enter or upload your text</li>
-                <li>Select encryption or decryption</li>
-                <li>Choose a cipher method</li>
-                <li>Enter the encryption/decryption key</li>
-                <li>Click "Process" to get the result</li>
-                <li>Download the output if needed</li>
+    <div class="help-container">
+        <button onclick="toggleInstructions()" class="help-btn">?</button>
+        <div id="instructionsModal" class="instructions-modal">
+            <h3>How to Use</h3>
+            <ol style="margin-left: 20px; color: #ddd;">
+                <li>Enter text or upload a .txt file.</li>
+                <li>Select Encrypt or Decrypt.</li>
+                <li>Choose the Algorithm.</li>
+                <li>Enter the Key (Numbers for Caesar/RSA, Text for others).</li>
+                <li>Click Process.</li>
             </ol>
-            <button onclick="toggleInstructions()" class="close-btn">Close</button>
+            <p style="font-size: 0.8em; color: #aaa; margin-top: 10px;">*RSA requires key format: 'n,e' (encrypt) or 'n,d' (decrypt).</p>
         </div>
     </div>
-</div>
 
+<div class="help-container">
+        <button onclick="toggleInstructions()" class="help-btn">?</button>
+        <div id="instructionsModal" class="instructions-modal">
+            <h3>How to Use</h3>
+            <ol style="margin-left: 20px; color: #ddd;">
+                <li>Enter text or upload a .txt file.</li>
+                <li>Select Encrypt or Decrypt.</li>
+                <li>Choose the Algorithm.</li>
+                <li>Enter the Key (Numbers for Caesar/RailFence, Text for others).</li>
+                <li>Click Process.</li>
+            </ol>
+            <p style="font-size: 0.8em; color: #aaa; margin-top: 10px;">*RSA requires key format: 'n,e' (encrypt) or 'n,d' (decrypt).</p>
+        </div>
+    </div>
 
     <div class="container">
-        
         <div id="mainContent">
+
             <div class="message error" id="errorMessage"></div>
             <div class="message success" id="successMessage"></div>
-			
-            <textarea id="input" placeholder="Enter text here or upload a file..."></textarea>
+            
+            <textarea id="input" placeholder="Enter text here to Encrypt/Decrypt..."></textarea>
             
             <div class="row">
                 <div class="col">
@@ -584,28 +573,31 @@
                     </select>
                 </div>
                 <div class="col">
-<select id="method">
-    <option value="caesar">Caesar Cipher</option>
-    <option value="monoalpha">Monoalphabetic Cipher</option>
-    <option value="playfair">Playfair Cipher</option>
-    <option value="transposition">Row Transposition Cipher</option>
-    <option value="vigenere">Vigenère Cipher</option>
-    <option value="autokey">Autokey Cipher</option>
-    <option value="otp">One-Time Pad</option>
-    <option value="railfence">Rail Fence Cipher</option>
-</select>
+                    <select id="method">
+                        <option value="caesar">Caesar Cipher</option>
+                        <option value="monoalpha">Monoalphabetic Cipher</option>
+                        <option value="playfair">Playfair Cipher</option>
+                        <option value="transposition">Columnar Transposition</option>
+                        <option value="vigenere">Vigenère Cipher</option>
+                        <option value="autokey">Autokey Cipher</option>
+                        <option value="otp">One-Time Pad</option>
+                        <option value="railfence">Rail Fence Cipher</option>
+                        <option value="rsa">RSA (Educational)</option>
+                    </select>
                 </div>
             </div>
             
-            <input type="text" id="key" placeholder="Enter encryption/decryption key">
+            <input type="text" id="key" placeholder="Enter Key (e.g., 3 for Caesar, KEYWORD for others)">
             
             <button onclick="processText()" id="processButton">Process</button>
             
+            <div style="margin-top: 10px; font-weight: bold;">Output:</div>
             <div id="result"></div>
             
-            <button onclick="downloadResult()" id="downloadBtn" style="display: none;">Download Result</button>
+            <button onclick="downloadResult()" id="downloadBtn" style="display: none; background-color: #444;">Download Result</button>
         </div>
     </div>
+
     <footer>
     <div class="footer-content">
         <div class="footer-section">
@@ -637,718 +629,455 @@
 </footer>
 
 <script>
-function toggleInstructions() {
-    const modal = document.getElementById('instructionsModal');
-    modal.classList.toggle('show');
-}
-</script>
+    // --- UI Logic ---
+    function toggleInstructions() {
+        document.getElementById('instructionsModal').classList.toggle('show');
+    }
 
-    <script>
-    
     let lastScrollY = window.scrollY;
-    
     window.addEventListener("scroll", () => {
         const navbar = document.querySelector(".navbar");
-        
         if (lastScrollY < window.scrollY) {
-            
             navbar.classList.add("hidden");
         } else {
-            
             navbar.classList.remove("hidden");
         }
-        
         lastScrollY = window.scrollY;
     });
-        function preprocessText(text) {
-            return text.replace(/[^A-Za-z]/g, '').toUpperCase();
-        }
 
-        function caesarCipher(text, shift) {
-            return text.replace(/[A-Z]/g, (char) =>
-                String.fromCharCode(((char.charCodeAt(0) - 65 + shift + 26) % 26) + 65)
-            );
+    document.getElementById('fileInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 1024 * 1024) { // 1MB limit
+                showError('File size must be less than 1MB');
+                e.target.value = '';
+                return;
+            }
+            try {
+                const text = await file.text();
+                document.getElementById('input').value = text;
+                showSuccess('File loaded successfully!');
+            } catch (error) {
+                showError('Error reading file');
+            }
         }
+    });
 
-        function playfairCipher(text, key, encrypt = true) {
-    let matrix = generatePlayfairMatrix(key);
-    let pairs = preparePlayfairPairs(preprocessText(text), encrypt);
-    let result = pairs.map(pair => processPlayfairPair(pair, matrix, encrypt)).join('');
-       
-    if (encrypt) {
-        result = result.match(/.{2}/g).join(' ');
+    function downloadResult() {
+        const text = document.getElementById('result').textContent;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'cipher_result.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
     }
-    
-    return result;
-}
 
-        function generatePlayfairMatrix(key) {
-            let matrix = [];
-            let seen = {};
-            key = preprocessText(key) + "ABCDEFGHIKLMNOPQRSTUVWXYZ"; // Exclude 'J'
-            for (let char of key) {
-                if (!seen[char] && char !== 'J') {
-                    seen[char] = true;
-                    if (matrix.length === 0 || matrix[matrix.length - 1].length === 5) {
-                        matrix.push([]);
-                    }
-                    matrix[matrix.length - 1].push(char);
+    function showError(msg) {
+        const el = document.getElementById('errorMessage');
+        el.textContent = msg;
+        el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 5000);
+    }
+
+    function showSuccess(msg) {
+        const el = document.getElementById('successMessage');
+        el.textContent = msg;
+        el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 3000);
+    }
+
+    // --- Cryptography Helper Functions ---
+
+    function preprocessText(text) {
+        // Keep only A-Z, convert to uppercase
+        return text.replace(/[^A-Za-z]/g, '').toUpperCase();
+    }
+
+    // Custom Modulo function to handle negative numbers correctly
+    // Essential for decryption in Caesar, Vigenere, etc.
+    function mod(n, m) {
+        return ((n % m) + m) % m;
+    }
+
+    // Helper to turn keyword into column indices (e.g. "ZEBRA" -> indices based on alphabet order)
+    function getKeyIndices(key) {
+        key = key.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        let keyWithIndex = key.split('').map((char, i) => ({ char, originalIndex: i }));
+        keyWithIndex.sort((a, b) => a.char < b.char ? -1 : 1);
+        let indices = new Array(key.length);
+        keyWithIndex.forEach((item, sortedIndex) => {
+            indices[item.originalIndex] = sortedIndex;
+        });
+        return indices;
+    }
+
+    // BigInt Modular Exponentiation for RSA
+    function powerMod(base, exponent, modulus) {
+        if (modulus === 1n) return 0n;
+        let result = 1n;
+        base = base % modulus;
+        while (exponent > 0n) {
+            if (exponent % 2n === 1n) result = (result * base) % modulus;
+            exponent = exponent / 2n;
+            base = (base * base) % modulus;
+        }
+        return result;
+    }
+
+    // --- Cipher Algorithms ---
+
+    function caesarCipher(text, key, encrypt) {
+        const shift = parseInt(key);
+        if (isNaN(shift)) throw new Error("Caesar key must be an integer.");
+        
+        return text.replace(/[A-Z]/g, (char) => {
+            const code = char.charCodeAt(0) - 65;
+            const shifted = encrypt ? (code + shift) : (code - shift);
+            return String.fromCharCode(mod(shifted, 26) + 65);
+        });
+    }
+
+    function monoalphabeticCipher(text, key, encrypt) {
+        key = key.toUpperCase().replace(/[^A-Z]/g, '');
+        if (new Set(key).size !== 26) throw new Error("Key must contain 26 unique letters.");
+        
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const source = encrypt ? alphabet : key;
+        const target = encrypt ? key : alphabet;
+        
+        return text.split('').map(char => {
+            const idx = source.indexOf(char);
+            return idx > -1 ? target[idx] : char;
+        }).join('');
+    }
+
+    function playfairCipher(text, key, encrypt) {
+        // Generate Matrix
+        let matrix = [];
+        let keyString = preprocessText(key) + "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+        keyString = keyString.replace(/J/g, 'I');
+        let used = new Set();
+        let row = [];
+        for (let char of keyString) {
+            if (!used.has(char)) {
+                used.add(char);
+                row.push(char);
+                if (row.length === 5) {
+                    matrix.push(row);
+                    row = [];
                 }
             }
-            return matrix;
         }
 
-        function preparePlayfairPairs(text, encrypt) {
-            let pairs = [];
-            text = text.replace(/J/g, 'I');
-            for (let i = 0; i < text.length; i += 2) {
-                let a = text[i];
-                let b = text[i + 1];
-                if (b === undefined) {
-                    b = encrypt ? 'X' : '';
-                } else if (a === b) {
-                    b = 'X';
-                    i--;
-                }
-                if (a) pairs.push([a, b]);
+        // Prepare Text
+        let processedText = preprocessText(text).replace(/J/g, 'I');
+        let pairs = [];
+        for (let i = 0; i < processedText.length; i += 2) {
+            let a = processedText[i];
+            let b = processedText[i + 1];
+            if (!b) b = 'X';
+            if (a === b) {
+                b = 'X';
+                i--; // backtrack to pair 'b' next time
             }
-            return pairs;
+            pairs.push([a, b]);
         }
 
-        function findInMatrix(char, matrix) {
-            for (let i = 0; i < matrix.length; i++) {
-                for (let j = 0; j < matrix[i].length; j++) {
-                    if (matrix[i][j] === char) {
-                        return [i, j];
-                    }
-                }
-            }
-            return null;
-        }
-
-        function processPlayfairPair(pair, matrix, encrypt) {
-            if (!pair[1]) return pair[0];
-            
+        // Process Pairs
+        let result = "";
+        const shift = encrypt ? 1 : -1;
+        
+        pairs.forEach(pair => {
             let [a, b] = pair;
-            let [ax, ay] = findInMatrix(a, matrix);
-            let [bx, by] = findInMatrix(b, matrix);
-
-            if (ax === bx) { // Same row
-                ay = (ay + (encrypt ? 1 : -1) + 5) % 5;
-                by = (by + (encrypt ? 1 : -1) + 5) % 5;
-            } else if (ay === by) { // Same column
-                ax = (ax + (encrypt ? 1 : -1) + 5) % 5;
-                bx = (bx + (encrypt ? 1 : -1) + 5) % 5;
-            } else { // Rectangle
-                [ay, by] = [by, ay];
-            }
-
-            return matrix[ax][ay] + matrix[bx][by];
-        }
-
-function transpositionCipher(text, key, encrypt = true) {
-    // Validate and convert key to array of numbers
-    const keyArray = key.toString().split('').map(Number);
-    if (keyArray.some(isNaN)) {
-        throw new Error("Key must consist of numbers only");
-    }
-    
-    // Validate key sequence
-    const keySet = new Set(keyArray);
-    if (keySet.size !== keyArray.length || 
-        !keyArray.every(num => num >= 1 && num <= keyArray.length)) {
-        throw new Error("Key must be a valid permutation (e.g., '312' or '1432')");
-    }
-
-    text = preprocessText(text);
-    if (!text) return '';
-
-    const keyLength = keyArray.length;
-
-    if (encrypt) {
-        // Calculate dimensions
-        const numRows = Math.ceil(text.length / keyLength);
-        const matrix = Array(numRows).fill().map(() => Array(keyLength).fill(''));
-        
-        // Fill matrix row by row
-        let textPos = 0;
-        for (let row = 0; row < numRows; row++) {
-            for (let col = 0; col < keyLength; col++) {
-                if (textPos < text.length) {
-                    matrix[row][col] = text[textPos++];
-                } else {
-                    matrix[row][col] = 'X'; // Pad with X if needed
+            let r1, c1, r2, c2;
+            // Find coords
+            for(let r=0; r<5; r++) {
+                for(let c=0; c<5; c++) {
+                    if(matrix[r][c] === a) { r1 = r; c1 = c; }
+                    if(matrix[r][c] === b) { r2 = r; c2 = c; }
                 }
             }
-        }
 
-        // Create a mapping of key numbers to their positions
-        const keyMap = {};
-        keyArray.forEach((num, index) => {
-            keyMap[num] = index;
+            if (r1 === r2) { // Same Row
+                result += matrix[r1][mod(c1 + shift, 5)] + matrix[r2][mod(c2 + shift, 5)];
+            } else if (c1 === c2) { // Same Col
+                result += matrix[mod(r1 + shift, 5)][c1] + matrix[mod(r2 + shift, 5)][c2];
+            } else { // Rectangle
+                result += matrix[r1][c2] + matrix[r2][c1];
+            }
         });
 
-        // Read columns according to key sequence
-        let result = '';
-        for (let k = 1; k <= keyLength; k++) {
-            const col = keyMap[k];
-            for (let row = 0; row < numRows; row++) {
-                result += matrix[row][col];
-            }
-        }
-
-        return result;
-
-    } else {  // Decrypt
-        const numRows = Math.ceil(text.length / keyLength);
-        const matrix = Array(numRows).fill().map(() => Array(keyLength).fill(''));
-        
-        // Calculate chars per column
-        const charsPerCol = Math.ceil(text.length / keyLength);
-        
-        // Fill matrix column by column according to key
-        let pos = 0;
-        for (let k = 1; k <= keyLength; k++) {
-            const col = keyArray.indexOf(k);
-            for (let row = 0; row < numRows && pos < text.length; row++) {
-                matrix[row][col] = text[pos++];
-            }
-        }
-        
-        // Read row by row for decrypted result
-        let result = '';
-        for (let row = 0; row < numRows; row++) {
-            for (let col = 0; col < keyLength; col++) {
-                if (matrix[row][col] && matrix[row][col] !== 'X') {
-                    result += matrix[row][col];
-                }
-            }
-        }
-        
-        return result;
+        // Group by 2 for readability
+        return encrypt ? result.match(/.{1,2}/g).join(' ') : result;
     }
-}
-	    
-function transpositionEncrypt(text, key) {
-    text = preprocessText(text);
-    if (!text || !key) return "Error: Empty input";
-    
-    // Process the key and text
-    const keyOrder = processKey(key);
-    const keyLength = keyOrder.length;
-    const textLength = text.length;
-    const rows = Math.ceil(textLength / keyLength);
-    
-    // Create and fill matrix, but only pad with X when necessary
-    let matrix = Array(rows).fill().map(() => Array(keyLength).fill(''));
-    let index = 0;
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < keyLength; j++) {
-            if (index < textLength) {
-                matrix[i][j] = text[index++];
-            } else if (i === rows - 1) {
-                // Only add X padding in the last row if needed
-                matrix[i][j] = 'X';
-            }
-        }
-    }
-    
-    // Read off by columns according to key
-    let result = "";
-    for (let k = 1; k <= keyLength; k++) {
-        for (let i = 0; i < keyLength; i++) {
-            if (keyOrder[i] === k) {
-                for (let j = 0; j < rows; j++) {
-                    if (matrix[j][i] !== '') {  // Only add non-empty cells
-                        result += matrix[j][i];
+
+    function transpositionCipher(text, key, encrypt) {
+        text = preprocessText(text);
+        let keyIndices = getKeyIndices(key);
+        let numCols = keyIndices.length;
+        if (numCols === 0) throw new Error("Invalid Key");
+
+        let numRows = Math.ceil(text.length / numCols);
+
+        if (encrypt) {
+            let result = "";
+            for (let i = 0; i < numCols; i++) {
+                let colIndex = keyIndices.indexOf(i);
+                for (let row = 0; row < numRows; row++) {
+                    let charIndex = row * numCols + colIndex;
+                    if (charIndex < text.length) {
+                        result += text[charIndex];
                     }
                 }
             }
-        }
-    }
-    
-    return result;
-}
+            return result;
+        } else {
+            // Decrypt Logic for irregular columns
+            let numFullCols = text.length % numCols;
+            let colLengths = [];
+            for (let i = 0; i < numCols; i++) {
+                // If text doesn't fill grid perfectly, first columns are longer
+                colLengths[i] = (i < numFullCols) ? numRows : (numFullCols === 0 ? numRows : numRows - 1);
+            }
 
-function transpositionDecrypt(text, key) {
-    text = preprocessText(text);
-    if (!text || !key) return "Error: Empty input";
-    
-    // Process the key
-    const keyOrder = processKey(key);
-    const keyLength = keyOrder.length;
-    const textLength = text.length;
-    
-    if (textLength % keyLength !== 0) {
-        return "Error: Invalid text length";
-    }
-    
-    const rows = textLength / keyLength;
-    let matrix = Array(rows).fill().map(() => Array(keyLength).fill(''));
-    
-    // Fill matrix by columns according to key
-    let index = 0;
-    for (let k = 1; k <= keyLength; k++) {
-        for (let i = 0; i < keyLength; i++) {
-            if (keyOrder[i] === k) {
-                for (let j = 0; j < rows; j++) {
-                    matrix[j][i] = text[index++];
+            let cols = new Array(numCols).fill("");
+            let currentIndex = 0;
+            
+            // Fill columns based on Key Order
+            for (let i = 0; i < numCols; i++) {
+                let originalColIndex = keyIndices.indexOf(i);
+                let len = colLengths[originalColIndex];
+                cols[originalColIndex] = text.substr(currentIndex, len);
+                currentIndex += len;
+            }
+
+            let result = "";
+            for (let row = 0; row < numRows; row++) {
+                for (let col = 0; col < numCols; col++) {
+                    if (row < cols[col].length) {
+                        result += cols[col][row];
+                    }
                 }
             }
+            return result;
         }
     }
-    
-    // Read matrix row by row
-    let result = "";
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < keyLength; j++) {
-            result += matrix[i][j];
-        }
-    }
-    
-    return result;
-}
 
-	    function monoalphabeticCipher(text, key, encrypt = true) {
-    key = key.toUpperCase().replace(/[^A-Z]/g, '');
-    if (key.length !== 26 || new Set(key).size !== 26) {
-        throw new Error("Key must contain all 26 letters of the alphabet exactly once");
-    }
+    function vigenereCipher(text, key, encrypt) {
+        text = preprocessText(text);
+        key = preprocessText(key);
+        if (!key) throw new Error("Key is required");
 
-    const normalAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const codedAlphabet = key;
-    
-    text = text.toUpperCase();
-    let result = '';
-
-    for (let char of text) {
-        if (char.match(/[A-Z]/)) {
-            let index;
+        let result = "";
+        for (let i = 0, j = 0; i < text.length; i++) {
+            let charCode = text.charCodeAt(i) - 65;
+            let keyCode = key.charCodeAt(j % key.length) - 65;
+            
+            let processed;
             if (encrypt) {
-                index = normalAlphabet.indexOf(char);
-                result += codedAlphabet[index];
+                processed = mod(charCode + keyCode, 26);
             } else {
-                index = codedAlphabet.indexOf(char);
-                result += normalAlphabet[index];
+                processed = mod(charCode - keyCode, 26);
             }
-        } else {
-            result += char;
-        }
-    }
-    
-    return result;
-}
-	    
-        document.getElementById('fileInput').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                if (file.size > 1024 * 1024) {
-                    showError('File size must be less than 1MB');
-                    e.target.value = '';
-                    return;
-                }
-                
-                try {
-                    const text = await file.text();
-                    document.getElementById('input').value = text;
-                    showSuccess('File loaded successfully!');
-                } catch (error) {
-                    showError('Error reading file');
-                }
-            }
-        });
-        function removeSpaces(text) {
-    let result = "";
-    for(let i = 0; i < text.length; i++) {
-        if(text[i] !== ' ') {
-            result += text[i];
-        }
-    }
-    return result;
-}
-
-// Vigenère Cipher
-function vigenereCipher(text, key, encrypt = true) {
-    key = key.toUpperCase().replace(/[^A-Z]/g, '');
-    if (!key) throw new Error("Vigenère key must contain only letters");
-    
-    let keyIndex = 0;
-    return text.split('').map(c => {
-        if (/[A-Z]/.test(c)) {
-            const shift = key.charCodeAt(keyIndex % key.length) - 65;
-            keyIndex++;
-            return caesarCipher(c, encrypt ? shift : (26 - shift) % 26);
-        }
-        return c;
-    }).join('');
-}
-
-// Autokey Cipher (fixed)
-function autokeyCipher(text, key, encrypt = true) {
-    key = key.toUpperCase().replace(/[^A-Z]/g, '');
-    if (!key) throw new Error("Autokey key must contain letters");
-    
-    let fullKey = key;
-    let result = '';
-    text = preprocessText(text);
-    
-    for (let i = 0; i < text.length; i++) {
-        const textChar = text[i];
-        const keyChar = fullKey[i % fullKey.length];
-        
-        const textCode = textChar.charCodeAt(0) - 65;
-        const keyCode = keyChar.charCodeAt(0) - 65;
-        
-        let processedCode;
-        if (encrypt) {
-            processedCode = (textCode + keyCode) % 26;
-            fullKey += String.fromCharCode(processedCode + 65);
-        } else {
-            processedCode = (textCode - keyCode + 26) % 26;
-            fullKey += String.fromCharCode(processedCode + 65);
-        }
-        
-        result += String.fromCharCode(processedCode + 65);
-    }
-    return result;
-}
-
-// Vernam Cipher (Binary XOR)
-function vernamCipher(text, key, encrypt = true) {
-    text = preprocessText(text);
-    key = key.toUpperCase().replace(/[^A-Z]/g, '');
-    
-    if (text.length !== key.length) {
-        throw new Error("Vernam key must match text length");
-    }
-    
-    return text.split('').map((c, i) => {
-        const textCode = c.charCodeAt(0);
-        const keyCode = key[i].charCodeAt(0);
-        const processedCode = textCode ^ keyCode;
-        return String.fromCharCode(processedCode);
-    }).join('');
-}
-
-// One-Time Pad (Modular Arithmetic)
-function otpCipher(text, key, encrypt = true) {
-    text = preprocessText(text);
-    key = key.toUpperCase().replace(/[^A-Z]/g, '');
-    
-    if (text.length !== key.length) {
-        throw new Error("OTP key must match text length");
-    }
-    
-    return text.split('').map((c, i) => {
-        const textCode = c.charCodeAt(0) - 65;
-        const keyCode = key[i].charCodeAt(0) - 65;
-        let processedCode;
-        if (encrypt) {
-            processedCode = (textCode + keyCode) % 26;
-        } else {
-            processedCode = (textCode - keyCode + 26) % 26;
-        }
-        return String.fromCharCode(processedCode + 65);
-    }).join('');
-}
-
-// Autokey Cipher (Fixed)
-function autokeyCipher(text, key, encrypt = true) {
-    key = key.toUpperCase().replace(/[^A-Z]/g, '');
-    if (!key) throw new Error("Autokey key must contain letters");
-    
-    let fullKey = key;
-    let result = '';
-    text = preprocessText(text);
-    
-    for (let i = 0; i < text.length; i++) {
-        const textChar = text[i];
-        const keyChar = fullKey[i];
-        
-        const textCode = textChar.charCodeAt(0) - 65;
-        const keyCode = keyChar.charCodeAt(0) - 65;
-        
-        let processedCode;
-        if (encrypt) {
-            processedCode = (textCode + keyCode) % 26;
-            fullKey += textChar; // Append plaintext character
-        } else {
-            processedCode = (textCode - keyCode + 26) % 26;
-            fullKey += String.fromCharCode(processedCode + 65); // Append decrypted character
-        }
-        
-        result += String.fromCharCode(processedCode + 65);
-    }
-    return result;
-}
-
-// Rail Fence Cipher (fixed decryption)
-function railFenceCipher(text, rails, encrypt = true) {
-    rails = parseInt(rails);
-    if (isNaN(rails) || rails < 2) throw new Error("Invalid rail count (≥2)");
-    
-    if (encrypt) {
-        const fence = Array(rails).fill().map(() => []);
-        let rail = 0, dir = 1;
-        
-        text.split('').forEach(c => {
-            fence[rail].push(c);
-            rail += dir;
-            if (rail === rails - 1 || rail === 0) dir *= -1;
-        });
-        return fence.flat().join('');
-    } else {
-        const cycle = 2 * (rails - 1);
-        const fence = Array(rails).fill().map(() => []);
-        let pos = 0;
-        
-        // Calculate rail lengths
-        const lengths = Array(rails).fill(0);
-        for (let i = 0; i < text.length; i++) {
-            const r = railForPosition(i, rails);
-            lengths[r]++;
-        }
-        
-        // Fill rails
-        lengths.forEach((len, r) => {
-            fence[r] = text.slice(pos, pos + len).split('');
-            pos += len;
-        });
-        
-        // Read zigzag
-        let result = '';
-        rail = 0;
-        dir = 1;
-        for (let i = 0; i < text.length; i++) {
-            result += fence[rail].shift();
-            rail += dir;
-            if (rail === rails - 1 || rail === 0) dir *= -1;
+            result += String.fromCharCode(processed + 65);
+            j++;
         }
         return result;
     }
-}
 
-function railForPosition(pos, rails) {
-    const cycle = 2 * (rails - 1);
-    const posInCycle = pos % cycle;
-    return posInCycle < rails ? posInCycle : cycle - posInCycle;
-}
+    function autokeyCipher(text, key, encrypt) {
+        text = preprocessText(text);
+        key = preprocessText(key);
+        if (!key) throw new Error("Key is required");
 
-// Feistel Cipher (fixed)
-function feistelCipher(text, key, encrypt = true) {
-    const rounds = 16;
-    key = preprocessText(key).padEnd(16, 'X').slice(0, 16);
-    
-    // Convert text to 64-bit blocks
-    const blocks = [];
-    for (let i = 0; i < text.length; i += 8) {
-        let block = text.slice(i, i + 8).padEnd(8, 'X');
-        blocks.push(block);
-    }
-    
-    return blocks.map(block => processFeistelBlock(block, key, encrypt)).join('');
-}
-
-function processFeistelBlock(block, key, encrypt) {
-    let left = block.slice(0, 4);
-    let right = block.slice(4, 8);
-    const roundKeys = generateRoundKeys(key, 16);
-    
-    if (!encrypt) roundKeys.reverse();
-    
-    for (let round = 0; round < 16; round++) {
-        const temp = right;
-        const f = feistelFunction(right, roundKeys[round]);
-        right = xorStrings(left, f);
-        left = temp;
-    }
-    
-    return left + right;
-}
-
-function feistelFunction(data, roundKey) {
-    // Simple substitution-permutation network
-    return caesarCipher(data, roundKey.charCodeAt(0) % 26);
-}
-
-function xorStrings(a, b) {
-    return a.split('').map((c, i) => {
-        const codeA = c.charCodeAt(0) - 65;
-        const codeB = b[i % b.length].charCodeAt(0) - 65;
-        return String.fromCharCode((codeA ^ codeB) % 26 + 65);
-    }).join('');
-}
-
-function generateRoundKeys(key, rounds) {
-    return Array(rounds).fill().map((_, i) => 
-        caesarCipher(key, i * 3 % 26).slice(0, 4)
-    );
-}
-
-// RSA (fixed with proper padding)
-function rsaCipher(text, key, encrypt = true) {
-    const [n, e] = key.split(',').map(Number);
-    if (!n || !e) throw new Error("Invalid RSA parameters");
-    
-    return text.split('').map(c => {
-        const m = c.charCodeAt(0) - 65;
-        const cNum = modExp(m, e, n);
-        return String.fromCharCode((cNum % 26) + 65);
-    }).join('');
-}
-
-// Helper functions for RSA
-function isPrime(n) {
-    for (let i = 2; i <= Math.sqrt(n); i++) if (n % i === 0) return false;
-    return n > 1;
-}
-
-function gcd(a, b) {
-    return b === 0 ? a : gcd(b, a % b);
-}
-
-function modInverse(a, m) {
-    for (let x = 1; x < m; x++) if ((a * x) % m === 1) return x;
-    return 1;
-}
-
-function modExp(base, exp, mod) {
-    return Array.from({length: exp}, () => base).reduce((a, b) => (a * b) % mod, 1);
-}
-
-function processKey(key) {
-    let len = key.length;
-    let colVal = new Array(len);
-    
-    // Check if key is numeric
-    let isNumeric = true;
-    for(let c of key) {
-        if(isNaN(c)) {
-            isNumeric = false;
-            break;
-        }
-    }
-    
-    if(isNumeric) {
-        for(let i = 0; i < len; i++) {
-            colVal[i] = parseInt(key[i]);
-        }
-    } else {
-        let temp = [];
-        for(let i = 0; i < len; i++) {
-            temp.push({char: key[i].toUpperCase(), index: i});
-        }
+        let result = "";
+        // In this implementation, key is static initial key, then uses plaintext/result
         
-        temp.sort((a, b) => a.char.localeCompare(b.char));
-        
-        for(let i = 0; i < len; i++) {
-            colVal[temp[i].index] = i + 1;
+        for (let i = 0; i < text.length; i++) {
+            let textVal = text.charCodeAt(i) - 65;
+            let keyChar;
+            
+            if (i < key.length) {
+                keyChar = key[i]; // Use initial key
+            } else {
+                // Autokey: Use Plaintext. 
+                // If Encrypting: use text[i - keyLen]
+                // If Decrypting: use result[i - keyLen] (the plaintext we just recovered)
+                if (encrypt) {
+                    keyChar = text[i - key.length];
+                } else {
+                    keyChar = result[i - key.length];
+                }
+            }
+            
+            let keyVal = keyChar.charCodeAt(0) - 65;
+            let processed;
+            
+            if (encrypt) {
+                processed = mod(textVal + keyVal, 26);
+            } else {
+                processed = mod(textVal - keyVal, 26);
+            }
+            result += String.fromCharCode(processed + 65);
+        }
+        return result;
+    }
+
+    function railFenceCipher(text, key, encrypt) {
+        text = preprocessText(text);
+        let rails = parseInt(key);
+        if (isNaN(rails) || rails < 2) throw new Error("Key must be an integer >= 2");
+
+        if (encrypt) {
+            let fence = Array.from({ length: rails }, () => []);
+            let rail = 0;
+            let direction = 1;
+            for (let char of text) {
+                fence[rail].push(char);
+                rail += direction;
+                if (rail === 0 || rail === rails - 1) direction *= -1;
+            }
+            return fence.flat().join('');
+        } else {
+            let len = text.length;
+            let fence = Array.from({ length: rails }, () => new Array(len).fill(null));
+            
+            // Mark positions with '?'
+            let rail = 0;
+            let direction = 1;
+            for (let i = 0; i < len; i++) {
+                fence[rail][i] = '?';
+                rail += direction;
+                if (rail === 0 || rail === rails - 1) direction *= -1;
+            }
+
+            // Fill text into '?' positions
+            let index = 0;
+            for (let r = 0; r < rails; r++) {
+                for (let c = 0; c < len; c++) {
+                    if (fence[r][c] === '?' && index < len) {
+                        fence[r][c] = text[index++];
+                    }
+                }
+            }
+
+            // Read ZigZag
+            let result = '';
+            rail = 0;
+            direction = 1;
+            for (let i = 0; i < len; i++) {
+                result += fence[rail][i];
+                rail += direction;
+                if (rail === 0 || rail === rails - 1) direction *= -1;
+            }
+            return result;
         }
     }
-    
-    return colVal;
-}
-	    
-// Enhanced Error Handling
-function processText() {
-    try {
+
+    function rsaCipher(text, key, encrypt) {
+        // Key format: "n,e" or "n,d"
+        let parts = key.split(/[, ]+/);
+        if (parts.length < 2) throw new Error("RSA Key format must be 'n,exponent'");
+        let n = BigInt(parts[0]);
+        let exp = BigInt(parts[1]);
+
+        if (encrypt) {
+            let result = [];
+            for (let i = 0; i < text.length; i++) {
+                let m = BigInt(text.charCodeAt(i));
+                let c = powerMod(m, exp, n);
+                result.push(c.toString());
+            }
+            return result.join(' ');
+        } else {
+            let numbers = text.trim().split(/\s+/);
+            let result = "";
+            for (let numStr of numbers) {
+                if(!numStr) continue;
+                let c = BigInt(numStr);
+                let m = powerMod(c, exp, n);
+                result += String.fromCharCode(Number(m));
+            }
+            return result;
+        }
+    }
+
+    function otpCipher(text, key, encrypt) {
+        text = preprocessText(text);
+        key = preprocessText(key);
+        if (key.length < text.length) throw new Error("One-Time Pad key must be at least as long as the text.");
+        // OTP is essentially Vigenere with key length >= text length
+        return vigenereCipher(text, key, encrypt);
+    }
+
+    // --- Main Processing Function ---
+    function processText() {
         const input = document.getElementById('input').value;
         const operation = document.getElementById('operation').value;
         const method = document.getElementById('method').value;
         const key = document.getElementById('key').value;
-        
-        if (!input) throw new Error("Please enter some text");
-        
-        let result;
-        const processedText = preprocessText(input);
+        const isEncrypt = operation === 'encrypt';
 
-        switch(method) {
-            case 'caesar':
-                if (!key.match(/^-?\d+$/)) throw new Error("Caesar key must be a number");
-                result = caesarCipher(processedText, 
-                    operation === 'encrypt' ? parseInt(key) : -parseInt(key));
-                break;
+        document.getElementById('errorMessage').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'none';
+        document.getElementById('result').textContent = '';
+        document.getElementById('downloadBtn').style.display = 'none';
 
-            case 'monoalpha':
-                if (key.length !== 26 || new Set(key.toUpperCase()).size !== 26) 
-                    throw new Error("Monoalphabetic key must be 26 unique letters");
-                result = monoalphabeticCipher(processedText, key, operation === 'encrypt');
-                break;
-
-            case 'playfair':
-                if (!key) throw new Error("Playfair key is required");
-                result = playfairCipher(processedText, key, operation === 'encrypt');
-                break;
-
-            case 'transposition':
-                if (!key.match(/^\d+$/)) throw new Error("Transposition key must be numbers only");
-                result = transpositionCipher(processedText, key, operation === 'encrypt');
-                break;
-
-            case 'vigenere':
-                if (!key.match(/^[a-zA-Z]+$/)) throw new Error("Vigenère key must be letters only");
-                result = vigenereCipher(processedText, key, operation === 'encrypt');
-                break;
-
-            case 'autokey':
-                if (!key) throw new Error("Autokey key is required");
-                result = autokeyCipher(processedText, key, operation === 'encrypt');
-                break;
-
-            case 'vernam':
-                if (!key) throw new Error("Vernam key is required");
-                result = vernamCipher(processedText, key, operation === 'encrypt');
-                break;
-
-            case 'otp':
-                if (!key) throw new Error("OTP key is required");
-                result = otpCipher(processedText, key, operation === 'encrypt');
-                break;
-
-            case 'railfence':
-                if (!key.match(/^\d+$/) || parseInt(key) < 2) 
-                    throw new Error("Rail Fence key must be number ≥2");
-                result = railFenceCipher(processedText, parseInt(key), operation === 'encrypt');
-                break;
-
-            case 'feistel':
-                if (!key) throw new Error("Feistel key is required");
-                result = feistelCipher(processedText, key, operation === 'encrypt');
-                break;
-
-            case 'rsa':
-                if (!key.match(/^\d+,\d+$/)) throw new Error("RSA key format: n,e");
-                result = rsaCipher(processedText, key, operation === 'encrypt');
-                break;
-
-            default:
-                throw new Error("Unsupported cipher method");
+        if (!input) {
+            showError("Please enter text.");
+            return;
         }
-        
-        document.getElementById('result').textContent = result;
-        document.getElementById('downloadBtn').style.display = 'block';
-        showSuccess(`${operation.charAt(0).toUpperCase() + operation.slice(1)}ion successful!`);
-        
-    } catch (error) {
-        showError(error.message);
-        console.error(error);
+
+        try {
+            let result = "";
+            // Most algorithms expect clean A-Z input, except RSA which takes any char/numbers
+            let textToProcess = (method === 'rsa') ? input : preprocessText(input);
+
+            switch (method) {
+                case 'caesar':
+                    result = caesarCipher(textToProcess, key, isEncrypt);
+                    break;
+                case 'monoalpha':
+                    result = monoalphabeticCipher(textToProcess, key, isEncrypt);
+                    break;
+                case 'playfair':
+                    result = playfairCipher(textToProcess, key, isEncrypt);
+                    break;
+                case 'transposition':
+                    result = transpositionCipher(textToProcess, key, isEncrypt);
+                    break;
+                case 'vigenere':
+                    result = vigenereCipher(textToProcess, key, isEncrypt);
+                    break;
+                case 'autokey':
+                    result = autokeyCipher(textToProcess, key, isEncrypt);
+                    break;
+                case 'otp':
+                    result = otpCipher(textToProcess, key, isEncrypt);
+                    break;
+                case 'railfence':
+                    result = railFenceCipher(textToProcess, key, isEncrypt);
+                    break;
+                case 'rsa':
+                    result = rsaCipher(textToProcess, key, isEncrypt);
+                    break;
+                default:
+                    throw new Error("Unknown Method selected.");
+            }
+
+            document.getElementById('result').textContent = result;
+            document.getElementById('downloadBtn').style.display = 'block';
+            showSuccess("Done!");
+
+        } catch (e) {
+            showError(e.message);
+            console.error(e);
+        }
     }
-}
-
-// Enhanced UI Error Handling
-function showError(message) {
-    const errorDiv = document.getElementById('errorMessage');
-    errorDiv.textContent = message;
-    errorDiv.style.display = 'block';
-    setTimeout(() => errorDiv.style.display = 'none', 5000);
-}
-
-function showSuccess(message) {
-    const successDiv = document.getElementById('successMessage');
-    successDiv.textContent = message;
-    successDiv.style.display = 'block';
-    setTimeout(() => successDiv.style.display = 'none', 5000);
-}
 </script>
 </body>
 </html>
