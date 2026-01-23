@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DES Algorithm | Module 03 - Lesson 01</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">DES Algorithm</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 03 / Lesson 01</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Visual Explanation</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/118pOCrsgBA40mvaXs5v-rTEI71ZYcOCt/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-microchip"></i> <span data-i18n="theory_heading">How DES Works</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    The Data Encryption Standard (DES) is a symmetric-key block cipher. It encrypts data in <strong>64-bit blocks</strong> using a <strong>56-bit key</strong>. The algorithm uses a complex structure known as the <strong>Feistel Network</strong>, which consists of 16 rounds of processing.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 25px;">
+                    <div>
+                        <h4 style="color: var(--glow-color);" data-i18n="spec_title">Key Specifications:</h4>
+                        <ul style="color: #aaa; padding-left: 20px; line-height: 1.8;">
+                            <li data-i18n="spec_1">Block Size: 64 bits</li>
+                            <li data-i18n="spec_2">Key Size: 56 bits (effectively)</li>
+                            <li data-i18n="spec_3">Structure: Feistel Network</li>
+                            <li data-i18n="spec_4">Rounds: 16 identical rounds</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--glow-color);" data-i18n="process_title">Main Operations:</h4>
+                        <ul style="color: #aaa; padding-left: 20px; line-height: 1.8;">
+                            <li data-i18n="proc_1">Initial Permutation (IP)</li>
+                            <li data-i18n="proc_2">Expansion (32 to 48 bits)</li>
+                            <li data-i18n="proc_3">S-Box Substitution (Confusion)</li>
+                            <li data-i18n="proc_4">P-Box Permutation (Diffusion)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background: rgba(69, 255, 69, 0.05); border: 1px solid var(--border-color); padding: 25px; border-radius: 10px; margin: 30px 0;">
+                    <h4 style="color: #fff; margin-bottom: 10px;" data-i18n="feistel_title">Feistel Logic:</h4>
+                    <p style="color: #ccc; line-height: 1.8;" data-i18n="feistel_desc">
+                        Each round, the block is split into <strong>Left (L)</strong> and <strong>Right (R)</strong> halves. The R half undergoes a function with the round key and is then XORed with the L half.
+                    </p>
+                </div>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation (Conceptual XOR)</span></h3>
+            <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 15px;" data-i18n="python_note">This code illustrates the core Feistel step in DES rounds:</p>
+            <pre><code>def feistel_round(left, right, key):
+    # Simplified Feistel Round logic
+    # 1. Store original right side to become new left
+    new_left = right
+    
+    # 2. Right side function: XOR(Right, Key)
+    # (In real DES, 'right' goes through expansion and S-Boxes)
+    function_result = int(right, 2) ^ int(key, 2)
+    
+    # 3. New Right = Left XOR Function_Result
+    new_right = bin(int(left, 2) ^ function_result)[2:].zfill(32)
+    
+    return new_left, new_right
+
+# Example simulation of one round
+L = "11010010110100101101001011010010"
+R = "00110011001100110011001100110011"
+K = "10101010101010101010101010101010"
+
+next_L, next_R = feistel_round(L, R, K)
+print(f"Next Left:  {next_L}")
+print(f"Next Right: {next_R}")</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container"></div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="Polynomial algorithm.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-modern.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="RSA.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">© 2026 CipherBoy Intelligence System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            ls_title: "خوارزمية DES",
+            video_heading: "الشرح المرئي",
+            theory_heading: "آلية عمل DES",
+            ls_desc_1: "معيار تشفير البيانات (DES) هو تشفير كتل بمفتاح متماثل. يقوم بتشفير البيانات في كتل بحجم <strong>64 بت</strong> باستخدام مفتاح طوله <strong>56 بت</strong>. تستخدم الخوارزمية هيكلاً معقداً يُعرف باسم <strong>شبكة فايستل</strong>، وتتكون من 16 جولة معالجة.",
+            spec_title: "المواصفات الرئيسية:",
+            spec_1: "حجم الكتلة: 64 بت",
+            spec_2: "حجم المفتاح: 56 بت فعلياً",
+            spec_3: "البنية: شبكة فايستل (Feistel)",
+            spec_4: "الجولات: 16 جولة متطابقة",
+            process_title: "العمليات الأساسية:",
+            proc_1: "التبديل الأولي (IP)",
+            proc_2: "التوسعة (من 32 إلى 48 بت)",
+            proc_3: "صناديق الاستبدال (S-Box) لتحقيق الارتباك",
+            proc_4: "صناديق التبديل (P-Box) لتحقيق الانتشار",
+            feistel_title: "منطق فايستل:",
+            feistel_desc: "في كل جولة، يتم تقسيم الكتلة إلى نصفين: <strong>يسار (L)</strong> و <strong>يمين (R)</strong>. يخضع النصف الأيمن لوظيفة مع مفتاح الجولة ثم يتم إجراء عملية XOR مع النصف الأيسر.",
+            python_heading: "تطبيق منطقي ببايثون (خطوة فايستل)",
+            python_note: "يوضح هذا الكود الخطوة الجوهرية في جولات DES:",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار مهارات DES"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "DES Algorithm",
+            video_heading: "Visual Explanation",
+            theory_heading: "How DES Works",
+            ls_desc_1: "Data Encryption Standard (DES) is a symmetric block cipher encrypting 64-bit blocks with a 56-bit key. It uses a 16-round Feistel Network.",
+            spec_title: "Key Specifications:",
+            spec_1: "Block Size: 64 bits",
+            spec_2: "Key Size: 56 bits",
+            spec_3: "Structure: Feistel Network",
+            spec_4: "Rounds: 16 rounds",
+            process_title: "Main Operations:",
+            proc_1: "Initial Permutation (IP)",
+            proc_2: "Expansion (32 to 48 bits)",
+            proc_3: "S-Box Substitution (Confusion)",
+            proc_4: "P-Box Permutation (Diffusion)",
+            feistel_title: "Feistel Logic:",
+            feistel_desc: "The block is split into Left (L) and Right (R) halves. R is XORed with L after a function process.",
+            python_heading: "Python Implementation (Feistel Step)",
+            python_note: "This code illustrates the core Feistel step in DES rounds:",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "DES Skill Check"
+        });
+
+        const desQuiz = [
+            {
+                question: "What is the block size used in DES?",
+                options: ["128 bits", "64 bits", "32 bits", "256 bits"],
+                correct: 1
+            },
+            {
+                question: "How many rounds are performed in the DES algorithm?",
+                options: ["10", "12", "16", "24"],
+                correct: 2
+            },
+            {
+                question: "Which structure is the basis of the DES algorithm?",
+                options: ["Substitution-Permutation Network", "Feistel Network", "Stream Cipher", "Hashing Chain"],
+                correct: 1
+            },
+            {
+                question: "The S-Boxes in DES are primarily responsible for:",
+                options: ["Diffusion", "Confusion", "Key Generation", "Initial Permutation"],
+                correct: 1
+            },
+            {
+                question: "What is the effective key size in DES?",
+                options: ["64 bits", "128 bits", "56 bits", "48 bits"],
+                correct: 2
+            }
+        ];
+
+        window.onload = () => { renderQuiz(desQuiz); };
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Portal | CipherBoy Intelligence</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* إصلاح سريع لمشكلة التداخل مع البار العلوي */
+        main {
+            padding-top: 120px !important; /* دفع المحتوى لأسفل البار الثابت */
+            position: relative;
+            z-index: 1; /* التأكد أن المحتوى خلف البار */
+        }
+        header {
+            z-index: 1000; /* البار دائماً في المقدمة */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <div class="section-header" style="text-align: center; margin-bottom: 60px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow); font-size: 3rem;" data-i18n="portal_title">CRYPTOGRAPHY ROADMAP</h1>
+        </div>
+
+        <div class="content-grid">
+            
+            <div class="card">
+                <div class="card-icon" style="color: var(--glow-color); font-size: 2.5rem; margin-bottom: 20px;">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h3 data-i18n="mod1_title">Classic Ciphers</h3>
+                <p data-i18n="mod1_desc">Substitution & Transposition techniques.</p>
+                <ul class="lesson-list" style="list-style: none; margin: 20px 0; color: #aaa; font-size: 0.85rem; height: 250px; overflow-y: auto; border-left: 0px solid var(--border-color); padding-left: 10px;">
+                    <li><i class="fas fa-check-circle"></i> Caesar Cipher</li>
+                    <li><i class="fas fa-check-circle"></i> Autokey Cipher</li>
+                    <li><i class="fas fa-check-circle"></i> Mono-Alphabetic Cipher</li>
+                    <li><i class="fas fa-check-circle"></i> Poly-Alphabetic Cipher</li>
+                    <li><i class="fas fa-check-circle"></i> Playfair Cipher</li>
+                    <li><i class="fas fa-check-circle"></i> Vigenere Cipher</li>
+                    <li><i class="fas fa-check-circle"></i> Rail Fence Cipher</li>
+                    <li><i class="fas fa-check-circle"></i> Row Transposition Cipher</li>
+                    <li><i class="fas fa-check-circle"></i> Vernam Cipher (ASCII)</li>
+                    <li><i class="fas fa-check-circle"></i> One-Time Pad</li>
+                </ul>
+                <a href="module-classic.html" class="btn-action" style="width: 100%; text-align: center;" data-i18n="view_module">Enter Module</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon" style="color: var(--glow-color); font-size: 2.5rem; margin-bottom: 20px;">
+                    <i class="fas fa-square-root-alt"></i>
+                </div>
+                <h3 data-i18n="mod2_title">Mathematical Logic</h3>
+                <p data-i18n="mod2_desc">Number theory & prime algorithms.</p>
+                <ul class="lesson-list" style="list-style: none; margin: 20px 0; color: #aaa; font-size: 0.85rem; height: 276px; overflow-y: auto; border-left: 0px solid var(--border-color); padding-left: 10px;">
+                    <li><i class="fas fa-check-circle"></i> Division Algorithm</li>
+                    <li><i class="fas fa-check-circle"></i> Euclidean Algorithm</li>
+                    <li><i class="fas fa-check-circle"></i> GCD Algorithm</li>
+                    <li><i class="fas fa-check-circle"></i> GF(P) Finite Fields</li>
+                    <li><i class="fas fa-check-circle"></i> Fermat's Little Theorem</li>
+                    <li><i class="fas fa-check-circle"></i> Miller-Rabin Primality</li>
+                    <li><i class="fas fa-check-circle"></i> Polynomial Algorithms</li>
+                </ul>
+                <a href="module-math.html" class="btn-action" style="width: 100%; text-align: center;" data-i18n="view_module">Enter Module</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon" style="color: var(--glow-color); font-size: 2.5rem; margin-bottom: 20px;">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <h3 data-i18n="mod3_title">Modern Encryption</h3>
+                <p data-i18n="mod3_desc">Standard algorithms & key exchange.</p>
+                <ul class="lesson-list" style="list-style: none; margin: 20px 0; color: #aaa; font-size: 0.85rem; height: 276px; overflow-y: auto; border-left: 0px solid var(--border-color); padding-left: 10px;">
+                    <li><i class="fas fa-check-circle"></i> DES Algorithm</li>
+                    <li><i class="fas fa-check-circle"></i> RSA Algorithm</li>
+                    <li><i class="fas fa-check-circle"></i> Diffie-Hellman Key Exchange</li>
+                    <li><i class="fas fa-check-circle"></i> Feistel Cipher Logic</li>
+                    <li><i class="fas fa-check-circle"></i> Modular Polynomials</li>
+                </ul>
+                <a href="module-modern.html" class="btn-action" style="width: 100%; text-align: center;" data-i18n="view_module">Enter Module</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <img src="logo.png" style="height: 60px; margin-bottom: 20px;" alt="CipherBoy">
+            <div style="margin-bottom: 20px;">
+                <a href="aboutus.html" style="color: #888; text-decoration: none;" data-i18n="about">About Us</a> | 
+                <a href="terms.html" style="color: #888; text-decoration: none; margin-left: 15px;" data-i18n="terms">Terms & Conditions</a>
+            </div>
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            portal_title: "خارطة طريق التشفير",
+            portal_subtitle: "اختر وحدة تعليمية لبدء تدريبك الاستخباراتي",
+            mod1_title: "التشفير الكلاسيكي",
+            mod1_desc: "تقنيات الاستبدال والنقل القديمة.",
+            mod2_title: "المنطق الرياضي",
+            mod2_desc: "نظرية الأعداد وخوارزميات الأوّلية.",
+            mod3_title: "التشفير الحديث",
+            mod3_desc: "المعايير الصناعية وتبادل المفاتيح.",
+            view_module: "دخول الوحدة"
+        });
+
+        Object.assign(translations.en, {
+            portal_title: "CRYPTOGRAPHY ROADMAP",
+            portal_subtitle: "Select a module to start your intelligence training",
+            mod1_title: "Classic Ciphers",
+            mod1_desc: "Substitution & Transposition techniques.",
+            mod2_title: "Mathematical Logic",
+            mod2_desc: "Number theory & prime algorithms.",
+            mod3_title: "Modern Encryption",
+            mod3_desc: "Standard algorithms & key exchange.",
+            view_module: "Enter Module"
+        });
+    </script>
+</body>
+</html>

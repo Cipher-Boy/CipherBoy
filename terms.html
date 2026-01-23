@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | CipherBoy</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 150px; padding-bottom: 100px;">
+        <div class="card" style="max-width: 900px; margin: 0 auto; border-style: solid;">
+            <h1 style="color: var(--glow-color); margin-bottom: 30px; text-align: center;" data-i18n="terms_header">Terms & Conditions</h1>
+            
+            <div class="terms-content" style="color: #ccc; font-size: 1.1rem; line-height: 1.8;">
+                
+                <section style="margin-bottom: 30px;">
+                    <h3 style="color: #fff;" data-i18n="terms_s1_title">1. Intellectual Property</h3>
+                    <p data-i18n="terms_s1_desc">All content provided on CipherBoy, including text, graphics, Python code, and video tutorials, is the exclusive property of CipherBoy. Unauthorized reproduction or distribution is strictly prohibited.</p>
+                </section>
+
+                <section style="margin-bottom: 30px;">
+                    <h3 style="color: #fff;" data-i18n="terms_s2_title">2. Educational Purpose</h3>
+                    <p data-i18n="terms_s2_desc">This platform is built for educational and research purposes only. CipherBoy does not encourage or support any illegal activities. Users are responsible for their own actions and how they apply the knowledge gained here.</p>
+                </section>
+
+                <section style="margin-bottom: 30px;">
+                    <h3 style="color: #fff;" data-i18n="terms_s3_title">3. Disclaimer of Liability</h3>
+                    <p data-i18n="terms_s3_desc">CipherBoy is not liable for any damages, legal issues, or data loss resulting from the use of the tools or information provided on this site. Use the cryptographic methods at your own risk.</p>
+                </section>
+
+                <section style="margin-bottom: 30px;">
+                    <h3 style="color: #fff;" data-i18n="terms_s4_title">4. Modifications</h3>
+                    <p data-i18n="terms_s4_desc">We reserve the right to modify these terms at any time without prior notice. Continued use of the site implies acceptance of the updated terms.</p>
+                </section>
+
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="btn-action" data-i18n="back_home">Return to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <img src="logo.png" style="height: 60px; margin-bottom: 20px;" alt="CipherBoy">
+            <div style="margin-bottom: 20px;">
+                <a href="aboutus.html" style="color: #888; text-decoration: none;" data-i18n="about">About Us</a> | 
+                <a href="terms.html" style="color: #888; text-decoration: none; margin-left: 15px;" data-i18n="terms">Terms & Conditions</a>
+            </div>
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+<script>
+        Object.assign(translations.ar, {
+            terms_header: "الشروط والأحكام",
+            terms_s1_title: "1. الملكية الفكرية",
+            terms_s1_desc: "جميع المحتويات المقدمة في CipherBoy، بما في ذلك النصوص، الرسومات، أكواد بايثون، ودروس الفيديو، هي ملكية حصرية لـ CipherBoy.",
+            terms_s2_title: "2. الغرض التعليمي",
+            terms_s2_desc: "تم بناء هذه المنصة لأغراض تعليمية وبحثية فقط. CipherBoy لا يشجع ولا يدعم أي أنشطة غير قانونية.",
+            terms_s3_title: "3. إخلاء المسؤولية",
+            terms_s3_desc: "CipherBoy غير مسؤول عن أي أضرار أو مشاكل قانونية ناتجة عن استخدام الأدوات أو المعلومات المقدمة هنا.",
+            terms_s4_title: "4. التعديلات",
+            terms_s4_desc: "نحتفظ بالحق في تعديل هذه الشروط في أي وقت دون إشعار مسبق.",
+            back_home: "العودة للرئيسية"
+        });
+
+        Object.assign(translations.en, {
+            terms_header: "Terms & Conditions",
+            terms_s1_title: "1. Intellectual Property",
+            terms_s1_desc: "All content provided on CipherBoy, including text, graphics, Python code, and video tutorials, is the exclusive property of CipherBoy.",
+            terms_s2_title: "2. Educational Purpose",
+            terms_s2_desc: "This platform is built for educational and research purposes only. CipherBoy does not encourage or support any illegal activities.",
+            terms_s3_title: "3. Disclaimer of Liability",
+            terms_s3_desc: "CipherBoy is not liable for any damages or legal issues resulting from the use of the tools or information provided on this site.",
+            terms_s4_title: "4. Modifications",
+            terms_s4_desc: "We reserve the right to modify these terms at any time without prior notice.",
+            back_home: "Return to Home"
+        });
+    </script>
+</body>
+</html>

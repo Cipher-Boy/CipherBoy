@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autokey Cipher | Module 01 - Lesson 02</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">Autokey Cipher</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 01 / Lesson 02</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Visual Explanation</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/1CcXisDiPdEz12Bayl_NXI6chZ0NaXufY/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-microchip"></i> <span data-i18n="theory_heading">How it Works</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    The Autokey Cipher is a polyalphabetic substitution cipher. It is more secure than the Vigenère cipher because it doesn't repeat the keyword. Instead, it uses a "seed" keyword and then appends the message itself to the key.
+                </p>
+                                <br>
+                <h4 style="color: #fff;" data-i18n="logic_heading">Encryption Logic:</h4>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_2">
+                    To encrypt, we take the keyword and the plaintext. The key stream is created by: <strong>Key = Keyword + Plaintext</strong>. Each character is then shifted using the same Tabula Recta logic as Vigenère.
+                </p>
+                <div style="background: #000; padding: 20px; border-radius: 10px; margin: 15px 0; color: var(--glow-color); font-family: 'Courier New', monospace; border: 1px solid #333;">
+                    Plaintext: ATTACKATDAWN <br>
+                    Keyword:   QUEEN <br>
+                    Full Key:  QUEENATTACKA
+                </div>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation</span></h3>
+            <pre><code>def autokey_encrypt(plaintext, keyword):
+    plaintext = plaintext.upper().replace(" ", "")
+    keyword = keyword.upper()
+    
+    # Generate the full key by appending plaintext
+    key = (keyword + plaintext)[:len(plaintext)]
+    
+    ciphertext = ""
+    for p, k in zip(plaintext, key):
+        # Shift formula: (P + K) mod 26
+        c = chr(((ord(p) - 65) + (ord(k) - 65)) % 26 + 65)
+        ciphertext += c
+    return ciphertext
+
+# Example Usage
+print(autokey_encrypt("HELLO", "KEY")) # Output: RIJVS</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container">
+                </div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="Caesar Cipher.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-classic.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="Mono-Alphabetic Cipher.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // إعداد الترجمات الخاصة بالدرس
+        Object.assign(translations.ar, {
+            ls_title: "تشفير الأوتو-كي (Autokey Cipher)",
+            video_heading: "الشرح المرئي",
+            theory_heading: "آلية العمل",
+            ls_desc_1: "تشفير Autokey هو نوع من تشفير الاستبدال متعدد الأبجديات. يعتبر أكثر أماناً من تشفير فيجينير لأنه لا يكرر الكلمة المفتاحية، بل يستخدم النص الأصلي نفسه لتكملة المفتاح.",
+            logic_heading: "منطق التشفير:",
+            ls_desc_2: "للتشفير، نقوم بإنشاء تيار المفتاح عن طريق: المفتاح = الكلمة المفتاحية + النص الأصلي. ثم نقوم بإزاحة كل حرف بناءً على قيمة الحرف المقابل له في المفتاح.",
+            python_heading: "تطبيق الخوارزمية ببايثون",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار الدرس - Checkpoint"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "Autokey Cipher",
+            video_heading: "Visual Explanation",
+            theory_heading: "How it Works",
+            ls_desc_1: "The Autokey Cipher is a polyalphabetic substitution cipher. It is more secure than the Vigenère cipher because it doesn't repeat the keyword. Instead, it uses a 'seed' keyword and then appends the message itself to the key.",
+            logic_heading: "Encryption Logic:",
+            ls_desc_2: "To encrypt, we take the keyword and the plaintext. The key stream is created by: Key = Keyword + Plaintext. Each character is then shifted using the same Tabula Recta logic as Vigenère.",
+            python_heading: "Python Implementation",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "Lesson Quiz - Checkpoint"
+        });
+
+        // بيانات الكويز
+        const autokeyQuiz = [
+            {
+                question: "What solves the 'periodic key' vulnerability in Autokey Cipher?",
+                options: ["Longer keywords", "Using the plaintext as part of the key", "Random numbers", "Double encryption"],
+                correct: 1
+            },
+            {
+                question: "If the keyword is 'ACE' and the plaintext is 'HELLO', what is the full key used?",
+                options: ["ACEAC", "ACEHELL", "ACEHE", "HELLOAC"],
+                correct: 2
+            },
+            {
+                question: "Which cipher is the direct ancestor of the Autokey Cipher?",
+                options: ["Caesar Cipher", "Vigenère Cipher", "Atbash Cipher", "Playfair Cipher"],
+                correct: 1
+            },
+            {
+                question: "In the Autokey encryption formula, what is added to the Plaintext index?",
+                options: ["A fixed shift", "The Key index", "The index of the previous Ciphertext", "The current date"],
+                correct: 1
+            },
+            {
+                question: "Is the Autokey cipher vulnerable to frequency analysis?",
+                options: ["No, it's impossible", "Yes, but much harder than simple substitution", "Only if the key is 'A'", "Only in Python"],
+                correct: 1
+            }
+        ];
+
+        window.onload = () => {
+            renderQuiz(autokeyQuiz);
+        };
+    </script>
+</body>
+</html>

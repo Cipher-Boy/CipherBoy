@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miller-Rabin Test | Module 02 - Lesson 06</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">Miller-Rabin Primality Test</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 02 / Lesson 06</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Algorithm Walkthrough</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/1d20gym50fXxEGWnldPNBOkqGZfIE5GgP/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-search"></i> <span data-i18n="theory_heading">Probabilistic Primality</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    The Miller-Rabin primality test is a probabilistic algorithm used to determine if a number is likely to be prime. It is more robust than Fermat's test because it detects <strong>Carmichael numbers</strong> (composite numbers that pass Fermat's test).
+                </p>
+
+                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; margin: 25px 0; border-left: 4px solid var(--glow-color);">
+                    <h4 style="color: #fff; margin-bottom: 10px;" data-i18n="steps_title">The Mathematical Process:</h4>
+                    <p style="color: #aaa; font-size: 0.95rem; line-height: 1.8;" data-i18n="steps_list">
+                        1. Find $n-1 = 2^k \cdot q$ where $q$ is odd.<br>
+                        2. Select a random witness <strong>a</strong> in range $[2, n-2]$.<br>
+                        3. Compute $x = a^q \pmod{n}$.<br>
+                        4. If $x=1$ or $x=n-1$, the number is <strong>"Probably Prime"</strong>.<br>
+                        5. Otherwise, square $x$ repeatedly to check for $n-1$.
+                    </p>
+                </div>
+
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="prob_note">
+                    By repeating this test with different values of <strong>a</strong>, the probability of a composite number being labeled prime becomes effectively zero.
+                </p>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation</span></h3>
+            <pre><code>import random
+
+def miller_rabin(n, k=5): # k is the number of iterations
+    if n <= 1: return False
+    if n <= 3: return True
+    if n % 2 == 0: return False
+
+    # Write n-1 as 2^r * d
+    r, d = 0, n - 1
+    while d % 2 == 0:
+        r += 1
+        d //= 2
+
+    for _ in range(k):
+        a = random.randint(2, n - 2)
+        x = pow(a, d, n)
+        if x == 1 or x == n - 1:
+            continue
+        for _ in range(r - 1):
+            x = pow(x, 2, n)
+            if x == n - 1:
+                break
+        else:
+            return False
+    return True
+
+# Test
+num = 104729 # A known prime
+print(f"Is {num} prime? {miller_rabin(num)}")</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container"></div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="Fermat's Little Theorem.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-math.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="Polynomial algorithm.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">© 2026 CipherBoy Intelligence System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            ls_title: "اختبار ميلر-رابين للأوّلية",
+            video_heading: "شرح الخوارزمية",
+            theory_heading: "الأوّلية الاحتمالية",
+            ls_desc_1: "اختبار ميلر-رابين هو خوارزمية احتمالية تُستخدم لتحديد ما إذا كان الرقم أولياً أم لا. وهو أكثر قوة من اختبار فيرما لأنه يستطيع كشف <strong>أرقام كارمايكل</strong> (الأرقام غير الأولية التي تخدع اختبار فيرما).",
+            steps_title: "العملية الرياضية:",
+            steps_list: "1. كتابة $n-1$ على شكل $2^k \cdot q$ حيث $q$ فردي.<br> 2. اختيار شاهد عشوائي <strong>a</strong> في المدى $[2, n-2]$.<br> 3. حساب $x = a^q \pmod{n}$.<br> 4. إذا كان $x=1$ أو $x=n-1$ فالعدد <strong>'أولي محتمل'</strong>.<br> 5. بخلاف ذلك، نقوم بتربيع $x$ بشكل متكرر للبحث عن $n-1$.",
+            prob_note: "بتكرار هذا الاختبار بقيم مختلفة لـ a، تنخفض احتمالية الخطأ إلى الصفر تقريباً.",
+            python_heading: "تطبيق ميلر-رابين ببايثون",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار مهارات ميلر-رابين"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "Miller-Rabin Primality Test",
+            video_heading: "Algorithm Walkthrough",
+            theory_heading: "Probabilistic Primality",
+            ls_desc_1: "The Miller-Rabin primality test is a probabilistic algorithm used to determine if a number is likely to be prime. It is more robust than Fermat's test.",
+            steps_title: "The Mathematical Process:",
+            steps_list: "1. Find $n-1 = 2^k \cdot q$. 2. Select random witness <strong>a</strong>. 3. Compute $x = a^q \pmod{n}$. 4. Check for prime conditions.",
+            prob_note: "Repeating the test with different values of 'a' ensures high accuracy.",
+            python_heading: "Python Implementation",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "Miller-Rabin Skill Check"
+        });
+
+        const mrQuiz = [
+            {
+                question: "Miller-Rabin is a ____ algorithm.",
+                options: ["Deterministic", "Probabilistic", "Sorting", "Hashing"],
+                correct: 1
+            },
+            {
+                question: "What is the main advantage of Miller-Rabin over Fermat's test?",
+                options: ["It is faster", "It handles Carmichael numbers correctly", "It uses smaller numbers", "It is easier to write"],
+                correct: 1
+            },
+            {
+                question: "In the formula n-1 = 2^k * q, 'q' must be:",
+                options: ["Even", "Odd", "Prime", "Zero"],
+                correct: 1
+            },
+            {
+                question: "If a number passes the Miller-Rabin test once, it is called:",
+                options: ["Definitely Prime", "Strong Probable Prime", "Composite", "Perfect Number"],
+                correct: 1
+            },
+            {
+                question: "Increasing the number of iterations (k) in the code will:",
+                options: ["Decrease accuracy", "Increase the chance of error", "Increase accuracy and confidence", "Change the number being tested"],
+                correct: 2
+            }
+        ];
+
+        window.onload = () => { renderQuiz(mrQuiz); };
+    </script>
+</body>
+</html>

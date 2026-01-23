@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | CipherBoy</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* نظام الزوايا الحادة المطلق */
+        :root {
+            --sharp: 0px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        /* البطاقة كمستطيل رأسي حاد */
+        .member-card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: var(--sharp);
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s ease-in-out;
+            height: 100%; /* لتوحيد ارتفاع الصفوف */
+        }
+
+        .member-card:hover {
+            border-color: var(--glow-color);
+            box-shadow: 0 0 20px rgba(69, 255, 69, 0.1);
+            transform: translateY(-5px);
+        }
+
+        /* ----- إصلاح مشكلة تمدد الصورة ----- */
+        .member-image {
+            width: 100%;
+            /* يضمن بقاء المساحة مربعة تماماً */
+            aspect-ratio: 1 / 1; 
+            background: #050505;
+            border-bottom: 2px solid var(--glow-color);
+            overflow: hidden;
+            position: relative; /* ضروري للتموضع المطلق للصورة */
+        }
+
+        .member-image img {
+            /* إجبار الصورة على ملء الحاوية بالكامل */
+            width: 100%;
+            height: 100%;
+            /* يضمن تغطية المساحة بدون تشويه (سيتم قص الأطراف الزائدة) */
+            object-fit: cover; 
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2; /* الصورة فوق الأيقونة */
+        }
+
+        /* الأيقونة البديلة (تظهر خلف الصورة) */
+        .member-image i {
+            font-size: 5rem;
+            color: #222;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        /* ---------------------------------- */
+
+        /* نصوص الكريديت */
+        .member-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .member-info h3 {
+            color: var(--glow-color);
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .member-info h4 {
+            color: #fff;
+            font-size: 0.75rem;
+            margin-bottom: 15px;
+            border: 1px solid var(--glow-color);
+            display: inline-block;
+            padding: 2px 8px;
+            align-self: flex-start;
+        }
+
+        .member-info p {
+            color: #aaa;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* الأيقونات الاجتماعية الكبيرة */
+        .social-container {
+            display: flex;
+            gap: 20px;
+            margin-top: auto; /* دفع الأيقونات للأسفل */
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+
+        .social-link {
+            font-size: 2rem; /* حجم أكبر */
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--glow-color);
+            filter: drop-shadow(0 0 8px var(--glow-color));
+        }
+
+        .fa-whatsapp-square:hover { color: #25D366; }
+
+        .hero h1 { font-size: 2rem !important; letter-spacing: 3px; }
+    </style>
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" class="active" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 60px;">
+        <section class="hero" style="text-align: center; margin-bottom: 40px;">
+            <h1 data-i18n="about_title" style="color: var(--glow-color); text-shadow: var(--text-glow);">CORE OPERATIVES</h1>
+            <p data-i18n="about_desc" style="color: #888;">The architectural minds behind the CipherBoy intelligence system.</p>
+        </section>
+
+        <div class="team-grid">
+            <div class="member-card">
+                <div class="member-image">
+                    <img src="ghassan.jpeg" alt="Ghassan" onerror="this.style.display='none';">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="member-info">
+                    <h3 data-i18n="m1_name">Ghassan Al-Najjar</h3>
+                    <h4 data-i18n="m1_role">Project Lead & Developer</h4>
+                    <p data-i18n="m1_bio">UQU cybersecurity student creating Cipher Boy to simplify scarce, intimidating cryptography resources with a dedicated team.</p>
+                    <div class="social-container">
+                        <a href="https://www.linkedin.com/in/ghassan-alnajjar-cyberboy" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/Cipher-Boy" target="_blank" class="social-link"><i class="fab fa-github-square"></i></a>
+                        <a href="https://api.whatsapp.com/send/?phone=966506004124&text&type=phone_number&app_absent=0" target="_blank" class="social-link"><i class="fab fa-whatsapp-square"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-image">
+                    <img src="maher.jpeg" alt="Maher" onerror="this.style.display='none';">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <div class="member-info">
+                    <h3 data-i18n="m2_name">Maher Al-Harbi</h3>
+                    <h4 data-i18n="m2_role">Contributor</h4>
+                    <p data-i18n="m2_bio">UQU student designing hands-on tutorials to demystify encryption for learners navigating scarce resources.</p>
+                    <div class="social-container">
+                        <a href="https://www.linkedin.com/in/maher-al-harbi-326792338" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://api.whatsapp.com/send/?phone=966546888813&text&type=phone_number&app_absent=0" target="_blank" class="social-link"><i class="fab fa-whatsapp-square"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-image">
+                    <img src="feras.jpeg" alt="Feras" onerror="this.style.display='none';">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <div class="member-info">
+                    <h3 data-i18n="m3_name">Feras Ali</h3>
+                    <h4 data-i18n="m3_role">Contributor</h4>
+                    <p data-i18n="m3_bio">UQU student designing hands-on tutorials to demystify encryption for learners navigating scarce resources.</p>
+                    <div class="social-container">
+                        <a href="https://www.linkedin.com/in/feras-al-i1425" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://api.whatsapp.com/send/?phone=966545005080&text&type=phone_number&app_absent=0" target="_blank" class="social-link"><i class="fab fa-whatsapp-square"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-image">
+                    <img src="ameen.jpeg" alt="Ameen" onerror="this.style.display='none';">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <div class="member-info">
+                    <h3 data-i18n="m4_name">Ameen Barugaan</h3>
+                    <h4 data-i18n="m4_role">Contributor</h4>
+                    <p data-i18n="m4_bio">UQU student designing hands-on tutorials to demystify encryption for learners navigating scarce resources.</p>
+                    <div class="social-container">
+                        <a href="https://www.linkedin.com/in/ameenbarugaan" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://api.whatsapp.com/send/?phone=966502830213&text&type=phone_number&app_absent=0" target="_blank" class="social-link"><i class="fab fa-whatsapp-square"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <img src="logo.png" style="height: 50px; margin-bottom: 15px;" alt="CipherBoy">
+            <div style="margin-bottom: 20px;">
+                <a href="aboutus.html" style="color: #888; text-decoration: none;" data-i18n="about">About Us</a> | 
+                <a href="terms.html" style="color: #888; text-decoration: none; margin-left: 15px;" data-i18n="terms">Terms</a>
+            </div>
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // دمج الترجمات
+        Object.assign(translations.ar, {
+            about_title: "العملاء الأساسيون",
+            about_desc: "العقول المعمارية وراء نظام استخبارات سايفر بوي.",
+            m1_name: "غسان النجار",
+            m1_role: "قائد المشروع والمطور",
+            m1_bio: "طالب أمن سيبراني بجامعة أم القرى، يبتكر Cipher Boy لتبسيط مصادر التشفير النادرة والمعقدة مع فريق متفانٍ.",
+            m2_name: "ماهر الحربي",
+            m2_role: "مساهم في الشرح",
+            m2_bio: "طالب بجامعة أم القرى، يساهم في تصميم شروحات عملية لتبسيط مفاهيم التشفير للمتعلمين الذين يواجهون ندرة في المصادر.",
+            m3_name: "فراس علي",
+            m3_role: "مساهم في الشرح",
+            m3_bio: "طالب بجامعة أم القرى، يساهم في تصميم شروحات عملية لتبسيط مفاهيم التشفير للمتعلمين الذين يواجهون ندرة في المصادر.",
+            m4_name: "أمين بارقعان",
+            m4_role: "مساهم في الشرح",
+            m4_bio: "طالب بجامعة أم القرى، يساهم في تصميم شروحات عملية لتبسيط مفاهيم التشفير للمتعلمين الذين يواجهون ندرة في المصادر."
+        });
+
+        Object.assign(translations.en, {
+            about_title: "CORE OPERATIVES",
+            about_desc: "The architectural minds behind the CipherBoy intelligence system.",
+            m1_name: "Ghassan Al-Najjar",
+            m1_role: "Project Lead & Developer",
+            m1_bio: "UQU cybersecurity student creating Cipher Boy to simplify scarce, intimidating cryptography resources with a dedicated team.",
+            m2_name: "Maher Al-Harbi",
+            m2_role: "Contributor",
+            m2_bio: "UQU student designing hands-on tutorials to demystify encryption for learners navigating scarce resources.",
+            m3_name: "Feras Ali",
+            m3_role: "Contributor",
+            m3_bio: "UQU student designing hands-on tutorials to demystify encryption for learners navigating scarce resources.",
+            m4_name: "Ameen Barugaan",
+            m4_role: "Contributor",
+            m4_bio: "UQU student designing hands-on tutorials to demystify encryption for learners navigating scarce resources."
+        });
+    </script>
+</body>
+</html>

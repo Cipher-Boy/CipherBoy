@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Encryption | CipherBoy Academy</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        main { padding-top: 140px !important; }
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        .lesson-item {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+        }
+        .lesson-item:hover {
+            border-color: var(--glow-color);
+            box-shadow: 0 0 20px rgba(69, 255, 69, 0.2);
+            transform: translateY(-8px);
+        }
+        .lesson-item i {
+            font-size: 2.5rem;
+            color: var(--glow-color);
+            margin-bottom: 20px;
+            text-shadow: var(--text-glow);
+        }
+        .lesson-item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .lesson-status {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--glow-color);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="section-header" style="text-align: center;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow); font-size: 3rem;" data-i18n="mod_modern_title">MODERN SYSTEMS</h1>
+            <p style="color: #888; font-size: 1.1rem; margin-top: 10px;" data-i18n="mod_modern_subtitle">Advanced algorithms and industrial encryption standards</p>
+        </div>
+
+        <div class="lessons-grid">
+            
+            <div class="lesson-item">
+                <div class="lesson-status">Module 03 / Lesson 01</div>
+                <i class="fas fa-box-open"></i>
+                <h3 data-i18n="ls_des">DES Algorithm</h3>
+                <a href="DES.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 03 / Lesson 02</div>
+                <i class="fas fa-user-shield"></i>
+                <h3 data-i18n="ls_rsa">RSA Algorithm</h3>
+                <a href="RSA.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 03 / Lesson 03</div>
+                <i class="fas fa-exchange-alt"></i>
+                <h3 data-i18n="ls_diffie">Diffie-Hellman</h3>
+                <a href="Diffie-Hellman.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 03 / Lesson 04</div>
+                <i class="fas fa-network-wired"></i>
+                <h3 data-i18n="ls_feistel">Feistel Cipher</h3>
+                <a href="Feistel Cipher.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 03 / Lesson 05</div>
+                <i class="fas fa-atom"></i>
+                <h3 data-i18n="ls_modpoly">Modular Poly</h3>
+                <a href="Modular Polynomial algorithm.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <img src="logo.png" style="height: 60px; margin-bottom: 20px;" alt="CipherBoy">
+            <div style="margin-bottom: 20px;">
+                <a href="aboutus.html" style="color: #888; text-decoration: none;" data-i18n="about">About Us</a> | 
+                <a href="terms.html" style="color: #888; text-decoration: none; margin-left: 15px;" data-i18n="terms">Terms & Conditions</a>
+            </div>
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            mod_modern_title: "الأنظمة الحديثة",
+            mod_modern_subtitle: "الخوارزميات المتقدمة ومعايير التشفير الصناعية",
+            start_lesson: "ابدأ الدرس",
+            ls_des: "خوارزمية DES",
+            ls_rsa: "خوارزمية RSA",
+            ls_diffie: "تبادل ديفي-هيلمان",
+            ls_feistel: "تشفير فايستل",
+            ls_modpoly: "الحدود الموديولر"
+        });
+
+        Object.assign(translations.en, {
+            mod_modern_title: "MODERN SYSTEMS",
+            mod_modern_subtitle: "Advanced algorithms and industrial encryption standards",
+            start_lesson: "Start Lesson",
+            ls_des: "DES Algorithm",
+            ls_rsa: "RSA Algorithm",
+            ls_diffie: "Diffie-Hellman",
+            ls_feistel: "Feistel Cipher",
+            ls_modpoly: "Modular Poly"
+        });
+    </script>
+</body>
+</html>

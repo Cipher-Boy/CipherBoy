@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA Algorithm | Module 03 - Lesson 02</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">RSA Algorithm</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 03 / Lesson 02</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Visual Explanation</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/15KBaFGUg8mylfWfyCsohgsNYHnrtHKiC/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-key"></i> <span data-i18n="theory_heading">The Concept of Asymmetric Encryption</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    The RSA algorithm (Rivest–Shamir–Adleman) is the foundation of modern secure communication. Unlike DES, it uses <strong>two different keys</strong>: a Public Key to encrypt data and a Private Key to decrypt it.
+                </p>
+
+                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; margin: 25px 0; border-left: 4px solid var(--glow-color);">
+                    <h4 style="color: #fff; margin-bottom: 10px;" data-i18n="steps_title">Key Generation Process:</h4>
+                    <ol style="color: #aaa; font-size: 0.95rem; line-height: 1.8;" data-i18n="steps_list">
+                        <li>Choose two large prime numbers $p$ and $q$.</li>
+                        <li>Calculate $n = p \times q$. ($n$ is the modulus for both keys).</li>
+                        <li>Calculate $\phi(n) = (p-1)(q-1)$.</li>
+                        <li>Choose an integer $e$ (Public Exponent) such that $GCD(e, \phi(n)) = 1$.</li>
+                        <li>Calculate $d$ (Private Exponent) such that $(d \times e) \equiv 1 \pmod{\phi(n)}$.</li>
+                    </ol>
+                </div>
+
+                <h4 style="color: #fff;" data-i18n="math_title">Encryption & Decryption:</h4>
+                <div style="background: #000; padding: 20px; border-radius: 10px; text-align: center; margin: 15px 0; color: var(--glow-color); font-family: 'Courier New', monospace; border: 1px solid #333;">
+                    Encryption: $C = M^e \pmod{n}$ <br>
+                    Decryption: $M = C^d \pmod{n}$
+                </div>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation (RSA Logic)</span></h3>
+            <pre><code>def rsa_demo():
+    # 1. Simple Primes
+    p, q = 61, 53
+    n = p * q
+    phi = (p-1) * (q-1)
+    
+    # 2. Public Key (e, n)
+    e = 17
+    
+    # 3. Private Key (d, n)
+    # Finding d (multiplicative inverse)
+    def get_d(e, phi):
+        for d in range(1, phi):
+            if (e * d) % phi == 1:
+                return d
+        return None
+    
+    d = get_d(e, phi)
+    
+    # 4. Message
+    m = 65 # Example Character 'A'
+    print(f"Original Message: {m}")
+    
+    # Encryption
+    c = pow(m, e, n)
+    print(f"Encrypted (Cipher): {c}")
+    
+    # Decryption
+    m_decoded = pow(c, d, n)
+    print(f"Decrypted (Plain): {m_decoded}")
+
+rsa_demo()</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container"></div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="DES.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-modern.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="Diffie-Hellman.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">© 2026 CipherBoy Intelligence System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            ls_title: "خوارزمية RSA",
+            video_heading: "الشرح المرئي",
+            theory_heading: "مفهوم التشفير غير المتماثل",
+            ls_desc_1: "خوارزمية RSA (Rivest-Shamir-Adleman) هي أساس الاتصالات الآمنة الحديثة. على عكس DES، فهي تستخدم <strong>مفتاحين مختلفين</strong>: مفتاح عام لتشفير البيانات ومفتاح خاص لفك تشفيرها.",
+            steps_title: "عملية توليد المفاتيح:",
+            steps_list: "<li>اختيار عددين أوليين كبيرين $p$ و $q$.</li><li>حساب $n = p \times q$. ($n$ هو الموديول لكل من المفتاحين).</li><li>حساب $\phi(n) = (p-1)(q-1)$.</li><li>اختيار عدد $e$ (الأس العام) بحيث يكون $GCD(e, \phi(n)) = 1$.</li><li>حساب $d$ (الأس الخاص) بحيث يكون $(d \times e) \equiv 1 \pmod{\phi(n)}$.</li>",
+            math_title: "التشفير وفك التشفير:",
+            python_heading: "تطبيق منطق RSA ببايثون",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار مهارات RSA"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "RSA Algorithm",
+            video_heading: "Visual Explanation",
+            theory_heading: "The Concept of Asymmetric Encryption",
+            ls_desc_1: "RSA is the foundation of modern secure communication. It uses Public and Private keys.",
+            steps_title: "Key Generation Process:",
+            steps_list: "<li>Select two large primes p and q.</li><li>Calculate n = p * q.</li><li>Calculate phi(n) = (p-1)(q-1).</li><li>Choose public exponent e.</li><li>Calculate private exponent d.</li>",
+            math_title: "Encryption & Decryption:",
+            python_heading: "Python Implementation (RSA Logic)",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "RSA Skill Check"
+        });
+
+        const rsaQuiz = [
+            {
+                question: "RSA is what type of encryption algorithm?",
+                options: ["Symmetric", "Asymmetric (Public Key)", "Hashing", "Transposition"],
+                correct: 1
+            },
+            {
+                question: "In RSA, which key is used to decrypt the message?",
+                options: ["Public Key", "Private Key", "The Prime p", "The phi(n) value"],
+                correct: 1
+            },
+            {
+                question: "The security of RSA is primarily based on the difficulty of:",
+                options: ["Adding large numbers", "Integer Factorization", "Binary XOR", "Sorting algorithms"],
+                correct: 1
+            },
+            {
+                question: "If we have the Public Key (e, n), what is needed to find the Private Key d?",
+                options: ["The original message", "The value of phi(n)", "The cipher text", "The square root of e"],
+                correct: 1
+            },
+            {
+                question: "What is the encryption formula in RSA?",
+                options: ["C = M * e", "C = M^e mod n", "C = M + e mod n", "C = M ^ e"],
+                correct: 1
+            }
+        ];
+
+        window.onload = () => { renderQuiz(rsaQuiz); };
+    </script>
+</body>
+</html>

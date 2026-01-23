@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modular Polynomials | Module 03 - Lesson 05</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">Modular Polynomial Arithmetic</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 03 / Lesson 05</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Mathematical Visualization</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/10nt6oLTz4eQPnYqh0LT0CaH85cTUnOI-/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-divide"></i> <span data-i18n="theory_heading">Polynomials and Finite Fields</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    Modular polynomial arithmetic is a method where coefficients and polynomial results are reduced within a <strong>Finite Field</strong> (like $GF(2)$). It is the core logic used in <strong>AES (Advanced Encryption Standard)</strong> to ensure data blocks remain fixed in size.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 25px;">
+                    <div>
+                        <h4 style="color: var(--glow-color);" data-i18n="components_title">Key Components:</h4>
+                        <ul style="color: #aaa; padding-left: 20px; line-height: 1.8;">
+                            <li data-i18n="comp_1"><strong>Irreducible Polynomial:</strong> Acts like a prime number for reduction.</li>
+                            <li data-i18n="comp_2"><strong>Modulo Reduction:</strong> Finding the remainder after division.</li>
+                            <li data-i18n="comp_3"><strong>GF(2) Coefficients:</strong> Coefficients are only 0 or 1.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--glow-color);" data-i18n="process_title">The Logic:</h4>
+                        <ul style="color: #aaa; padding-left: 20px; line-height: 1.8;">
+                            <li data-i18n="proc_1">Multiplication: Perform standard algebraic multiplication.</li>
+                            <li data-i18n="proc_2">Reduction: Divide the result by an irreducible polynomial.</li>
+                            <li data-i18n="proc_3">Result: The remainder is our final encrypted/transformed state.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background: rgba(69, 255, 69, 0.05); border: 1px solid var(--border-color); padding: 25px; border-radius: 10px; margin: 30px 0;">
+                    <h4 style="color: #fff; margin-bottom: 10px; text-align: center;" data-i18n="example_title">Example in GF(2³):</h4>
+                    <p style="color: #ccc; text-align: center; line-height: 1.8;" data-i18n="example_desc">
+                        Irreducible: $x^3 + x + 1$ <br>
+                        $(x^2) \times (x^2) = x^4$ <br>
+                        $x^4 \pmod{x^3 + x + 1} = \mathbf{x^2 + x}$
+                    </p>
+                </div>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation (GF2 Poly Reduction)</span></h3>
+            <pre><code>def poly_to_int(poly_str):
+    return int(poly_str, 2)
+
+def gf2_poly_mod(a, m):
+    # 'a' is the polynomial to reduce, 'm' is irreducible
+    # Both are integers representing binary coefficients
+    a_len = a.bit_length()
+    m_len = m.bit_length()
+    
+    while a_len >= m_len:
+        # Align 'm' with the highest bit of 'a'
+        shift = a_len - m_len
+        a ^= (m << shift) # XOR reduction
+        a_len = a.bit_length()
+    return a
+
+# Example: x^4 (10000) mod x^3 + x + 1 (1011)
+result = gf2_poly_mod(0b10000, 0b1011)
+print(f"Remainder (Binary): {bin(result)}") # 0b11 -> x + 1</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container"></div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="Feistel Cipher.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-modern.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="AES.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">© 2026 CipherBoy Intelligence System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            ls_title: "حسابات الحدود الموديولية",
+            video_heading: "التوضيح الرياضي",
+            theory_heading: "الحدود والحقول المنتهية",
+            ls_desc_1: "حسابات الحدود الموديولية هي طريقة يتم فيها اختزال معاملات ونتائج الحدود ضمن <strong>حقل منتهٍ</strong> (مثل $GF(2)$). وهي المنطق الأساسي المستخدم في <strong>AES</strong> لضمان بقاء كتل البيانات ثابتة الحجم.",
+            components_title: "المكونات الرئيسية:",
+            comp_1: "<strong>الحدود غير القابلة للاختزال:</strong> تعمل مثل الأعداد الأولية لعملية الاختزال.",
+            comp_2: "<strong>الاختزال الموديولي:</strong> إيجاد الباقي بعد عملية القسمة.",
+            comp_3: "<strong>معاملات GF(2):</strong> المعاملات تكون فقط 0 أو 1.",
+            process_title: "المنطق البرمجي:",
+            proc_1: "الضرب: إجراء ضرب جبري قياسي.",
+            proc_2: "الاختزال: قسمة النتيجة على حدود غير قابلة للاختزال.",
+            proc_3: "النتيجة: الباقي هو الحالة النهائية المشفرة.",
+            example_title: "مثال في حقل GF(2³):",
+            python_heading: "تطبيق منطق الاختزال ببايثون",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار مهارات الحدود الموديولية"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "Modular Polynomial Arithmetic",
+            video_heading: "Mathematical Visualization",
+            theory_heading: "Polynomials and Finite Fields",
+            ls_desc_1: "Modular polynomial arithmetic reduces results within a Finite Field like GF(2). This is fundamental to AES security.",
+            components_title: "Key Components:",
+            comp_1: "Irreducible Polynomial: Similar to a prime number.",
+            comp_2: "Modulo Reduction: Finding the remainder.",
+            comp_3: "GF(2) Coefficients: Binary 0 or 1 coefficients.",
+            process_title: "The Logic:",
+            proc_1: "Multiplication: Standard algebraic process.",
+            proc_2: "Reduction: Divide by an irreducible polynomial.",
+            proc_3: "Result: The remainder is the final state.",
+            example_title: "Example in GF(2³):",
+            python_heading: "Python Implementation",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "Modular Poly Skill Check"
+        });
+
+        const polyQuiz = [
+            {
+                question: "In modular polynomial arithmetic, an 'irreducible polynomial' is similar to:",
+                options: ["A zero", "A prime number", "A square root", "An even number"],
+                correct: 1
+            },
+            {
+                question: "What is the primary reason for using modular polynomials in AES?",
+                options: ["To make math faster", "To keep results within fixed bit boundaries", "To replace the key", "To generate random numbers"],
+                correct: 1
+            },
+            {
+                question: "In GF(2) polynomial addition, what is x + x?",
+                options: ["2x", "x^2", "0", "1"],
+                correct: 2
+            },
+            {
+                question: "Which operation is equivalent to polynomial addition in binary finite fields?",
+                options: ["AND", "OR", "XOR", "NOT"],
+                correct: 2
+            },
+            {
+                question: "After multiplying two polynomials, how do we find the final modular result?",
+                options: ["By adding them", "By finding the remainder after division by the irreducible polynomial", "By taking the square root", "By subtracting the key"],
+                correct: 1
+            }
+        ];
+
+        window.onload = () => { renderQuiz(polyQuiz); };
+    </script>
+</body>
+</html>

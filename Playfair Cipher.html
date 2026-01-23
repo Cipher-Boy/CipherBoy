@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playfair Cipher | Module 01 - Lesson 05</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">Playfair Cipher</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 01 / Lesson 05</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Detailed Video Explanation</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/1dfbvTQpqxd7_YSC_wE7vdZbtf04TmuLF/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-th"></i> <span data-i18n="theory_heading">The Matrix Logic</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    The Playfair cipher is the first practical <strong>digraph substitution cipher</strong>. It encrypts pairs of letters instead of single units, which hides the frequency of individual letters.
+                </p>
+                <br>
+                <h4 style="color: #fff;" data-i18n="setup_title">How to Setup:</h4>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="setup_desc">
+                    1. Create a 5x5 grid (Matrix) and fill it with a keyword. <br>
+                    2. Remove duplicate letters and treat 'I' and 'J' as the same letter. <br>
+                    3. Split the message into pairs (if a pair has the same letter, insert 'X').
+                </p>
+                
+                <div style="background: rgba(69, 255, 69, 0.05); border: 1px solid var(--glow-color); padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
+                    <h4 style="color: #fff; margin-bottom: 10px;" data-i18n="matrix_example">Example Matrix (Key: MONARCHY):</h4>
+                    <p style="font-family: 'Courier New', monospace; color: var(--glow-color); letter-spacing: 10px; font-size: 1.5rem;">
+                        M O N A R<br>
+                        C H Y B D<br>
+                        E F G I K<br>
+                        L P Q S T<br>
+                        U V W X Z
+                    </p>
+                </div>
+
+                <h4 style="color: #fff;" data-i18n="rules_title">Encryption Rules:</h4>
+                <ul style="color: #ccc; padding-left: 20px; line-height: 1.8;">
+                    <li data-i18n="rule_1"><strong>Rectangle:</strong> If letters are in different rows/cols, form a rectangle and take the letters in the same row but opposite corners.</li>
+                    <li data-i18n="rule_2"><strong>Same Row:</strong> Replace each letter with the one to its right (circularly).</li>
+                    <li data-i18n="rule_3"><strong>Same Column:</strong> Replace each letter with the one below it (circularly).</li>
+                </ul>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation</span></h3>
+            <pre><code>def find_position(matrix, char):
+    for r in range(5):
+        for c in range(5):
+            if matrix[r][c] == char:
+                return r, c
+    return None
+
+def playfair_encrypt(text, key_matrix):
+    # Logic simplified: Processing pairs through the 3 rules
+    # Same row: right, Same col: down, Rectangle: swap corners
+    pass # Full logic available in the learning resources
+
+# Example Logic Illustration:
+# HE -> Rectangle corners -> CF
+# Message: "HELLO" -> "HE LX LO" -> "CF SU PM"</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container">
+                </div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="Poly-Alphabetic Cipher.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-classic.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="Vigenere Cipher.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // إعداد الترجمات الخاصة بالدرس لضمان عمل زر AR/EN
+        Object.assign(translations.ar, {
+            ls_title: "تشفير بلاي فير (Playfair Cipher)",
+            video_heading: "الشرح المرئي التفصيلي",
+            theory_heading: "منطق المصفوفة",
+            ls_desc_1: "تشفير بلاي فير هو أول تشفير عملي يعتمد على <strong>تشفير الأزواج</strong>. يقوم بتشفير زوج من الحروف معاً، مما يخفي تكرار الحروف الفردية ويجعل كسر التشفير أصعب بكثير.",
+            setup_title: "طريقة الإعداد:",
+            setup_desc: "1. أنشئ مصفوفة 5x5 واملأها بكلمة مفتاحية. <br> 2. احذف الحروف المكررة واعتبر 'I' و 'J' حرفاً واحداً. <br> 3. قسم الرسالة إلى أزواج (إذا تكرر حرفان في زوج واحد، أضف حرف 'X' بينهما).",
+            matrix_example: "مثال للمصفوفة (المفتاح: MONARCHY):",
+            rules_title: "قواعد التشفير:",
+            rule_1: "<strong>المستطيل:</strong> إذا كان الحرفان في صفوف وأعمدة مختلفة، خذ الحرفين الموجودين في الزوايا المقابلة لنفس الصف.",
+            rule_2: "<strong>نفس الصف:</strong> استبدل كل حرف بالحرف الذي على يمينه (بشكل دائري).",
+            rule_3: "<strong>نفس العمود:</strong> استبدل كل حرف بالحرف الذي تحته (بشكل دائري).",
+            python_heading: "تطبيق الخوارزمية ببايثون",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار الدرس - Checkpoint"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "Playfair Cipher",
+            video_heading: "Detailed Video Explanation",
+            theory_heading: "The Matrix Logic",
+            ls_desc_1: "The Playfair cipher is the first practical digraph substitution cipher. It encrypts pairs of letters instead of single units, which hides the frequency of individual letters.",
+            setup_title: "How to Setup:",
+            setup_desc: "1. Create a 5x5 grid (Matrix) and fill it with a keyword. 2. Remove duplicate letters and treat 'I' and 'J' as the same letter. 3. Split the message into pairs.",
+            matrix_example: "Example Matrix (Key: MONARCHY):",
+            rules_title: "Encryption Rules:",
+            rule_1: "Rectangle: swap corners.",
+            rule_2: "Same Row: take right character.",
+            rule_3: "Same Column: take character below.",
+            python_heading: "Python Implementation",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "Lesson Quiz - Checkpoint"
+        });
+
+        // بيانات الكويز الخاص ببلاي فير
+        const playfairQuiz = [
+            {
+                question: "Playfair is a ____ cipher.",
+                options: ["Monographic", "Digraphic", "Asymmetric", "Hashing"],
+                correct: 1
+            },
+            {
+                question: "Which two letters are usually combined in the 5x5 matrix?",
+                options: ["A and B", "I and J", "X and Y", "M and N"],
+                correct: 1
+            },
+            {
+                question: "If a pair has the same letter (e.g., 'LL'), what is inserted between them?",
+                options: ["A space", "A zero", "An 'X'", "The keyword"],
+                correct: 2
+            },
+            {
+                question: "What rule is applied if two letters form a rectangle in the grid?",
+                options: ["Same column rule", "Swap corners rule", "Skip one letter", "Shift right"],
+                correct: 1
+            },
+            {
+                question: "How many letters are in the Playfair matrix?",
+                options: ["26", "25", "30", "16"],
+                correct: 1
+            }
+        ];
+
+        window.onload = () => {
+            renderQuiz(playfairQuiz);
+        };
+    </script>
+</body>
+</html>

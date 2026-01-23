@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feistel Cipher | Module 03 - Lesson 04</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">Feistel Cipher Structure</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 03 / Lesson 04</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Structural Walkthrough</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/11Gd5MQMeLw-M5n9wtlWPe82fc6z2KdEH/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-sitemap"></i> <span data-i18n="theory_heading">What is a Feistel Cipher?</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    A Feistel cipher is a symmetric structure used in many block ciphers. It transforms an input block through multiple identical rounds. In each round, the data is split into two halves, and a <strong>Round Function (F)</strong> is applied to one half.
+                </p>
+
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 25px;">
+                    <div>
+                        <h4 style="color: var(--glow-color);" data-i18n="rules_title">Structure Rules:</h4>
+                        <ul style="color: #aaa; padding-left: 20px; line-height: 1.8;">
+                            <li data-i18n="rule_1">Split input block into two equal halves (L & R).</li>
+                            <li data-i18n="rule_2">The new Left ($L_i$) becomes the previous Right ($R_{i-1}$).</li>
+                            <li data-i18n="rule_3">The new Right ($R_i$) is the XOR of $L_{i-1}$ and $F(R_{i-1}, K_i)$.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--glow-color);" data-i18n="props_title">Key Properties:</h4>
+                        <ul style="color: #aaa; padding-left: 20px; line-height: 1.8;">
+                            <li data-i18n="prop_1"><strong>Invertible:</strong> Encryption and decryption use the same structure.</li>
+                            <li data-i18n="prop_2"><strong>Flexible:</strong> Function F doesn't need to be invertible.</li>
+                            <li data-i18n="prop_3"><strong>Efficiency:</strong> Same hardware/software for both processes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation (Feistel Logic)</span></h3>
+            <pre><code>def round_function(right_half, key):
+    # This can be any complex function (S-Boxes, etc.)
+    # For demo: (Right XOR Key) shifted
+    return (right_half ^ key) << 1
+
+def feistel_round(left, right, key):
+    # 1. New Left = Old Right
+    new_left = right
+    
+    # 2. New Right = Old Left XOR F(Old Right, Key)
+    f_result = round_function(right, key)
+    new_right = left ^ f_result
+    
+    return new_left, new_right
+
+# Example Execution
+L, R = 0xABCD, 0x1234
+K = 0xFF00
+L_next, R_next = feistel_round(L, R, K)
+
+print(f"Round Result: L={hex(L_next)}, R={hex(R_next)}")</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container"></div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="Diffie-Hellman.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-modern.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="Modular Polynomial algorithm.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">© 2026 CipherBoy Intelligence System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            ls_title: "بنية شفرة فايستل",
+            video_heading: "شرح البنية التنظيمية",
+            theory_heading: "ما هي شفرة فايستل؟",
+            ls_desc_1: "شفرة فايستل هي بنية متماثلة تُستخدم في العديد من تشفيرات الكتل. تقوم بتحويل كتلة الإدخال عبر عدة جولات متطابقة، حيث يتم تقسيم البيانات إلى نصفين وتطبيق <strong>وظيفة الجولة (F)</strong> على أحدهما.",
+            rules_title: "قواعد البنية:",
+            rule_1: "تقسيم الكتلة إلى نصفين متساويين (يسار ويمين).",
+            rule_2: "اليسار الجديد يصبح هو اليمين القديم.",
+            rule_3: "اليمين الجديد هو ناتج XOR بين اليسار القديم ووظيفة الجولة.",
+            props_title: "الخصائص الرئيسية:",
+            prop_1: "<strong>قابلة للعكس:</strong> التشفير وفك التشفير يستخدمان نفس البنية.",
+            prop_2: "<strong>مرنة:</strong> لا يشترط أن تكون الوظيفة F قابلة للعكس بحد ذاتها.",
+            prop_3: "<strong>الكفاءة:</strong> استخدام نفس البرامج/الأجهزة للعمليتين.",
+            python_heading: "تطبيق منطق فايستل ببايثون",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار مهارات شفرة فايستل"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "Feistel Cipher Structure",
+            video_heading: "Structural Walkthrough",
+            theory_heading: "What is a Feistel Cipher?",
+            ls_desc_1: "A Feistel cipher is a symmetric structure used in many block ciphers like DES. It splits the block into two halves and applies a round function.",
+            rules_title: "Structure Rules:",
+            rule_1: "Split input into L and R halves.",
+            rule_2: "New L = Previous R.",
+            rule_3: "New R = Previous L XOR F(R, K).",
+            props_title: "Key Properties:",
+            prop_1: "Invertible: Same structure for en/decryption.",
+            prop_2: "Flexible: Function F doesn't need to be invertible.",
+            prop_3: "Efficiency: Same hardware for both.",
+            python_heading: "Python Implementation (Feistel Logic)",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "Feistel Skill Check"
+        });
+
+        const feistelQuiz = [
+            {
+                question: "In a Feistel cipher round, which part remains unchanged and just moves to the other side?",
+                options: ["Left half", "Right half", "The Key", "The XOR result"],
+                correct: 1
+            },
+            {
+                question: "Does the round function 'F' need to be mathematically invertible (reversible)?",
+                options: ["Yes, always", "No, it doesn't need to be", "Only in DES", "Only in Python"],
+                correct: 1
+            },
+            {
+                question: "Which of these algorithms is built on the Feistel network?",
+                options: ["AES", "DES", "RSA", "Diffie-Hellman"],
+                correct: 1
+            },
+            {
+                question: "What logical operation is typically used to combine the halves in Feistel?",
+                options: ["AND", "OR", "XOR", "NOT"],
+                correct: 2
+            },
+            {
+                question: "What happens to the halves at the end of each round?",
+                options: ["They are deleted", "They are swapped", "They are added together", "They stay in place"],
+                correct: 1
+            }
+        ];
+
+        window.onload = () => { renderQuiz(feistelQuiz); };
+    </script>
+</body>
+</html>

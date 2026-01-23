@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One-Time Pad Cipher | Module 01 - Lesson 10</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">One-Time Pad (OTP)</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 01 / Lesson 10</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Visual Tutorial</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/1KIJw05PL2Fn2c6EqEom0x7B0UXuLxXWu/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-shield-alt"></i> <span data-i18n="theory_heading">The Concept of Perfect Secrecy</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    The One-Time Pad (OTP) is an encryption technique that <strong>cannot be cracked</strong> if used correctly. It was proven mathematically secure by Claude Shannon, meaning the ciphertext provides absolutely no information about the plaintext.
+                </p>
+
+                
+
+                <h4 style="color: #fff; margin-top: 25px;" data-i18n="requirements_title">Three Strict Rules for OTP:</h4>
+                <ul style="color: #aaa; padding-left: 20px; line-height: 1.8;">
+                    <li data-i18n="req_1"><strong>True Randomness:</strong> The key must be generated using a truly random process.</li>
+                    <li data-i18n="req_2"><strong>Key Length:</strong> The key must be at least as long as the message being encrypted.</li>
+                    <li data-i18n="req_3"><strong>No Reuse:</strong> The key must be used only once and then destroyed.</li>
+                </ul>
+
+                <div style="background: rgba(69, 255, 69, 0.05); border: 1px solid var(--glow-color); padding: 25px; border-radius: 10px; margin: 30px 0; font-family: 'Courier New', monospace;">
+                    <h4 style="color: #fff; margin-bottom: 20px; text-align: center;" data-i18n="example_title">Mathematical Representation</h4>
+                    <p style="text-align: center; color: var(--glow-color); font-size: 1.3rem;">
+                        C = (P + K) mod 26 <br>
+                        <span style="color: #666; font-size: 1rem;">(Or using XOR logic for digital data)</span>
+                    </p>
+                </div>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation</span></h3>
+            <pre><code>import secrets
+
+def generate_otp_key(length):
+    # Using 'secrets' for cryptographically strong random numbers
+    return "".join(secrets.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ") for _ in range(length))
+
+def otp_encrypt(plaintext, key):
+    ciphertext = ""
+    for p, k in zip(plaintext.upper(), key.upper()):
+        # (P + K) mod 26
+        c = chr(((ord(p) - 65) + (ord(k) - 65)) % 26 + 65)
+        ciphertext += c
+    return ciphertext
+
+# Usage
+msg = "SECRET"
+key = generate_otp_key(len(msg))
+print(f"Key: {key} \nCipher: {otp_encrypt(msg, key)}")</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container"></div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="Vernam Cipher.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-classic.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="learning.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="finish_mod">Finish Module →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">© 2025 Ghassan Al-Najjar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            ls_title: "لوحة المرة الواحدة (One-Time Pad)",
+            video_heading: "فيديو الشرح",
+            theory_heading: "مفهوم الأمان المطلق",
+            ls_desc_1: "تشفير لوحة المرة الواحدة (OTP) هو تقنية تشفير لا يمكن كسرها إذا استُخدمت بشكل صحيح. تم إثبات أمانها رياضياً بواسطة كلود شانون، مما يعني أن النص المشفر لا يوفر أي معلومات عن النص الأصلي.",
+            requirements_title: "ثلاث قواعد صارمة لـ OTP:",
+            req_1: "العشوائية الحقيقية: يجب توليد المفتاح بعملية عشوائية تماماً.",
+            req_2: "طول المفتاح: يجب أن يكون المفتاح بطول الرسالة على الأقل.",
+            req_3: "عدم التكرار: يجب استخدام المفتاح مرة واحدة فقط ثم إتلافه.",
+            example_title: "التمثيل الرياضي",
+            python_heading: "تطبيق الخوارزمية ببايثون",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            finish_mod: "إنهاء الموديل ←",
+            quiz_title: "اختبار سريع لدرس OTP"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "One-Time Pad (OTP)",
+            video_heading: "Visual Tutorial",
+            theory_heading: "The Concept of Perfect Secrecy",
+            ls_desc_1: "The One-Time Pad (OTP) is an encryption technique that cannot be cracked if used correctly. Shannon proved its security, meaning ciphertext provides zero info about plaintext.",
+            requirements_title: "Three Strict Rules for OTP:",
+            req_1: "True Randomness: Key must be truly random.",
+            req_2: "Key Length: Key must be at least as long as the message.",
+            req_3: "No Reuse: Key must be used only once.",
+            example_title: "Mathematical Representation",
+            python_heading: "Python Implementation",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            finish_mod: "Finish Module →",
+            quiz_title: "OTP Checkpoint Quiz"
+        });
+
+        const otpQuiz = [
+            {
+                question: "Why is the One-Time Pad considered 'unbreakable'?",
+                options: ["It uses a 256-bit key", "It is mathematically proven by Claude Shannon", "It uses the Enigma logic", "It's a digital cipher"],
+                correct: 1
+            },
+            {
+                question: "What must be true about the key length in OTP?",
+                options: ["It can be shorter than the message", "It must be exactly 10 characters", "It must be as long as the message or longer", "It must be prime"],
+                correct: 2
+            },
+            {
+                question: "If an attacker has unlimited computing power, can they break OTP?",
+                options: ["Yes, eventually", "No, it's information-theoretically secure", "Only if they use AI", "Only in Linux systems"],
+                correct: 1
+            },
+            {
+                question: "What happens if you reuse a One-Time Pad key for a second message?",
+                options: ["Security increases", "It becomes vulnerable to frequency and logical analysis", "Nothing happens", "The key becomes more random"],
+                correct: 1
+            },
+            {
+                question: "Which Python module is best for generating secure random keys for OTP?",
+                options: ["random", "math", "secrets", "os"],
+                correct: 2
+            }
+        ];
+
+        window.onload = () => {
+            renderQuiz(otpQuiz);
+        };
+    </script>
+</body>
+</html>

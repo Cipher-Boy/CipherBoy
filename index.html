@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CipherBoy | The Green Cryptography Hub</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1 data-i18n="hero_title">CIPHERBOY</h1>
+            <p data-i18n="hero_desc">Advanced cryptographic education with industrial-grade tools. Encrypt, decrypt, and master the world of secrets.</p>
+            <div class="hero-actions">
+                <a href="learning.html" class="btn-action" data-i18n="start_btn">Access Learning Portal</a>
+                <a href="cipher.html" class="btn-action" style="margin-left: 15px; border-color: #fff; color: #fff;" data-i18n="tool_btn">Encryption Tools</a>
+            </div>
+        </section>
+
+        <section class="content-grid">
+            <div class="card">
+                <h3 data-i18n="card_1_title">Cryptographic Logic</h3>
+                <p data-i18n="card_1_desc">Step-by-step guidance through classic and modern algorithms including RSA, DES, and more.</p>
+                <a href="learning.html" class="btn-action" style="padding: 5px 15px; font-size: 0.8rem; margin-top: 20px;" data-i18n="view_more">Get Started</a>
+            </div>
+
+            <div class="card">
+                <h3 data-i18n="card_2_title">Live Playground</h3>
+                <p data-i18n="card_2_desc">Utilize our built-in CipherBoy Tool to execute real encryption on your messages instantly.</p>
+                <a href="cipher.html" class="btn-action" style="padding: 5px 15px; font-size: 0.8rem; margin-top: 20px;" data-i18n="use_tool">Open Tool</a>
+            </div>
+
+            <div class="card">
+                <h3 data-i18n="card_3_title">Who made this?</h3>
+                <p data-i18n="card_3_desc">Meet the builders of this educational project (CipherBoy).</p>
+                <a href="aboutus.html" class="btn-action" style="padding: 5px 15px; font-size: 0.8rem; margin-top: 20px;" data-i18n="use_more">About us</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <img src="logo.png" style="height: 60px; margin-bottom: 20px;" alt="CipherBoy">
+            <div style="margin-bottom: 20px;">
+                <a href="aboutus.html" style="color: #888; text-decoration: none;" data-i18n="about">About Us</a> | 
+                <a href="terms.html" style="color: #888; text-decoration: none; margin-left: 15px;" data-i18n="terms">Terms & Conditions</a>
+            </div>
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+<script>
+        // إضافة ترجمات الصفحة الرئيسية للغتين معاً
+        Object.assign(translations.ar, {
+            hero_title: "سايفر بوي",
+            hero_desc: "تعليم تشفيري متقدم مع أدوات احترافية. شفر، فك التشفير، واحترف عالم الأسرار.",
+            start_btn: "دخول بوابة التعلم",
+            tool_btn: "أدوات التشفير",
+            card_1_title: "منطق التشفير",
+            card_1_desc: "دليل خطوة بخطوة عبر الخوارزميات الكلاسيكية والحديثة بما في ذلك RSA و DES والمزيد.",
+            card_2_title: "المختبر الحي",
+            card_2_desc: "استخدم أداة CipherBoy المدمجة لتنفيذ تشفير حقيقي على رسائلك فوراً.",
+            card_3_title: "من صنع هذا الموقع؟",
+            card_3_desc: "تعرّف على بناة هذا المشروع التعليمي (CipherBoy).",
+            view_more: "ابدأ الآن",
+            use_tool: "فتح الأداة"
+        });
+
+        Object.assign(translations.en, {
+            hero_title: "CIPHERBOY",
+            hero_desc: "Advanced cryptographic education with industrial-grade tools. Encrypt, decrypt, and master the world of secrets.",
+            start_btn: "Access Learning Portal",
+            tool_btn: "Encryption Tools",
+            card_1_title: "Cryptographic Logic",
+            card_1_desc: "Step-by-step guidance through classic and modern algorithms including RSA, DES, and more.",
+            card_2_title: "Live Playground",
+            card_2_desc: "Utilize our built-in CipherBoy Tool to execute real encryption on your messages instantly.",
+            card_3_title: "Who made this?",
+            card_3_desc: "Meet the builders of this educational project (CipherBoy).",
+            view_more: "Get Started",
+            use_tool: "Open Tool"
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cipher Tool | CipherBoy</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* تحسينات إضافية للأداة لتتناسب مع ألوان النيون الأخضر في قالبك */
+        :root {
+            --glow-color: #45ff45;
+            --border-color: #222;
+        }
+
+        .tool-panel {
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .tool-panel:hover {
+            border-color: var(--glow-color);
+            box-shadow: 0 0 20px rgba(69, 255, 69, 0.1);
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            background: #050505;
+            color: var(--glow-color);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            resize: none;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .tool-select, .tool-input {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 8px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .tool-select:focus, .tool-input:focus {
+            border-color: var(--glow-color);
+            outline: none;
+        }
+
+        .result-area {
+            background: #000;
+            border: 1px dashed var(--glow-color);
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 100px;
+            word-break: break-all;
+            color: var(--glow-color);
+            font-family: 'Courier New', monospace;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #111;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            border: 1px solid var(--glow-color);
+            position: relative;
+            box-shadow: 0 0 30px rgba(69, 255, 69, 0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px; right: 25px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 2rem;
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" class="active" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero" style="padding: 30px 0 0px 0; text-align: center;">
+            <h1 data-i18n="tool_title" style="font-size: 3rem; letter-spacing: 5px;">CIPHER ENGINE</h1>
+            <p data-i18n="tool_desc" style="color: #666; max-width: 600px; margin: 10px auto;">Industrial-grade encryption protocols for secure data transmission.</p>
+        </section>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-bottom: 50px;">
+            
+            <div class="tool-panel">
+                <h3 data-i18n="input_label" style="color: var(--glow-color); margin-bottom: 10px;">
+                    <i class="fas fa-terminal"></i> SOURCE DATA
+                </h3>
+                <textarea id="mainInput" placeholder="Enter your raw message here..."></textarea>
+                
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button class="btn-action" style="padding: 10px 25px; font-size: 0.8rem;" onclick="toggleModal()" data-i18n="help_btn">Instructions</button>
+                    <button class="btn-action" style="padding: 10px 25px; font-size: 0.8rem; border-color: #555; color: #888;" onclick="document.getElementById('fileLoad').click()" data-i18n="upload_btn">Load File</button>
+                    <input type="file" id="fileLoad" style="display:none;" onchange="handleFileUpload(this)">
+                </div>
+            </div>
+
+            <div class="tool-panel">
+                <label data-i18n="select_algo">Algorithm Selection:</label>
+                <select id="algoSelect" class="tool-select">
+                    <option value="caesar">Caesar Cipher</option>
+                    <option value="autokey">Autokey Cipher</option>
+                    <option value="mono">Mono-Alphabetic</option>
+                    <option value="playfair">Playfair Cipher</option>
+                    <option value="vigenere">Vigenere Cipher</option>
+                    <option value="railfence">Rail Fence Cipher</option>
+                    <option value="transposition">Row Transposition</option>
+                    <option value="otp">One-Time Pad (XOR)</option>
+                    <option value="rsa">RSA Asymmetric</option>
+                </select>
+
+                <label data-i18n="key_label">Secret Key / Parameter:</label>
+                <input type="text" id="keyInput" class="tool-input" placeholder="e.g. 3 or MYSECRETKEY">
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <button class="btn-action" onclick="runCipher('encrypt')" data-i18n="btn_encrypt">ENCRYPT</button>
+                    <button class="btn-action" style="border-color:#fff; color:#fff;" onclick="runCipher('decrypt')" data-i18n="btn_decrypt">DECRYPT</button>
+                </div>
+
+                <div class="result-area" id="resultBox">
+                    <span style="color: #333;">// Result will be displayed here...</span>
+                </div>
+                
+                <button id="downloadBtn" class="btn-action" style="width: 100%; margin-top: 20px; display: none; font-size: 0.8rem;" onclick="downloadResult()">
+                    <i class="fas fa-download"></i> DOWNLOAD AS .TXT
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="toggleModal()">&times;</span>
+            <h2 id="modalTitle" style="color: var(--glow-color); margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;"></h2>
+            <div id="modalBody" style="color: #ccc; line-height: 2; font-size: 0.95rem;"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <img src="logo.png" style="height: 60px; margin-bottom: 20px;" alt="CipherBoy">
+            <div style="margin-bottom: 20px;">
+                <a href="aboutus.html" style="color: #888; text-decoration: none;" data-i18n="about">About Us</a> | 
+                <a href="terms.html" style="color: #888; text-decoration: none; margin-left: 15px;" data-i18n="terms">Terms & Conditions</a>
+            </div>
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // دمج ترجمات الأداة مع كائن الترجمة العام
+        if (typeof translations !== 'undefined') {
+            Object.assign(translations.ar, {
+                tool_title: "محرك التشفير",
+                tool_desc: "بروتوكولات تشفير صناعية لضمان أمن نقل البيانات.",
+                input_label: "بيانات المصدر",
+                help_btn: "التعليمات",
+                upload_btn: "رفع ملف",
+                select_algo: "اختر الخوارزمية:",
+                key_label: "المفتاح / السر:",
+                btn_encrypt: "تشفير",
+                btn_decrypt: "فك التشفير",
+                m_title: "دليل العمليات السريع",
+                m_body: `
+                    1. <b>تشفير القيصر:</b> أدخل رقم الإزاحة (مثلاً 3).<br>
+                    2. <b>بلاي فير:</b> استخدم كلمة مفتاحية نصية.<br>
+                    3. <b>سياج السكة:</b> أدخل عدد الصفوف (رقم).<br>
+                    4. <b>RSA:</b> استخدم صيغة (e,n) للتشفير و (d,n) لفك التشفير.<br>
+                    5. <b>OTP:</b> يجب أن يكون المفتاح بنفس طول النص تماماً.`
+            });
+
+            Object.assign(translations.en, {
+                tool_title: "CIPHER ENGINE",
+                tool_desc: "Industrial-grade encryption protocols for secure data transmission.",
+                input_label: "SOURCE DATA",
+                help_btn: "Instructions",
+                upload_btn: "Load File",
+                select_algo: "Select Algorithm:",
+                key_label: "Key / Parameter:",
+                btn_encrypt: "ENCRYPT",
+                btn_decrypt: "DECRYPT",
+                m_title: "Quick Operation Guide",
+                m_body: `
+                    1. <b>Caesar:</b> Enter a numeric shift (e.g., 3).<br>
+                    2. <b>Playfair:</b> Use a text keyword.<br>
+                    3. <b>Rail Fence:</b> Enter number of rails (numeric).<br>
+                    4. <b>RSA:</b> Use format (e,n) for encryption and (d,n) for decryption.<br>
+                    5. <b>OTP:</b> Key must be exact same length as text.`
+            });
+        }
+
+        // منطق النافذة المنبثقة
+        function toggleModal() {
+            const modal = document.getElementById('helpModal');
+            const lang = document.documentElement.dir === 'rtl' ? 'ar' : 'en';
+            if(modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            } else {
+                document.getElementById('modalTitle').innerHTML = translations[lang].m_title;
+                document.getElementById('modalBody').innerHTML = translations[lang].m_body;
+                modal.style.display = 'flex';
+            }
+        }
+
+        // التعامل مع الملفات
+        function handleFileUpload(input) {
+            const reader = new FileReader();
+            reader.onload = () => document.getElementById('mainInput').value = reader.result;
+            reader.readAsText(input.files[0]);
+        }
+
+        // تحميل النتيجة
+        function downloadResult() {
+            const text = document.getElementById('resultBox').innerText;
+            const blob = new Blob([text], {type: 'text/plain'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'cipher_output.txt';
+            a.click();
+        }
+
+        // محرك الخوارزميات
+        function runCipher(mode) {
+            const text = document.getElementById('mainInput').value;
+            const key = document.getElementById('keyInput').value;
+            const algo = document.getElementById('algoSelect').value;
+            const output = document.getElementById('resultBox');
+            const isEnc = mode === 'encrypt';
+
+            if (!text) return;
+
+            try {
+                let res = "";
+                switch(algo) {
+                    case 'caesar': res = doCaesar(text, key, isEnc); break;
+                    case 'autokey': res = doAutokey(text, key, isEnc); break;
+                    case 'mono': res = doMono(text, key, isEnc); break;
+                    case 'playfair': res = doPlayfair(text, key, isEnc); break;
+                    case 'vigenere': res = doVigenere(text, key, isEnc); break;
+                    case 'railfence': res = doRailFence(text, key, isEnc); break;
+                    case 'transposition': res = doTransposition(text, key, isEnc); break;
+                    case 'vernam': case 'otp': res = doXOR(text, key); break;
+                    case 'rsa': res = doRSA(text, key, isEnc); break;
+                }
+                output.innerText = res;
+                document.getElementById('downloadBtn').style.display = 'block';
+            } catch(e) { output.innerText = "Error: " + e.message; }
+        }
+
+        // الخوارزميات (Logic)
+        function doCaesar(t, k, enc) {
+            let s = parseInt(k) || 0; if (!enc) s = 26 - (s % 26);
+            return t.toUpperCase().replace(/[A-Z]/g, c => String.fromCharCode((c.charCodeAt(0)-65+s)%26+65));
+        }
+        function doAutokey(t, k, enc) {
+            t = t.toUpperCase().replace(/[^A-Z]/g, ''); k = k.toUpperCase().replace(/[^A-Z]/g, '');
+            let res = "", fk = k;
+            if (enc) {
+                fk = (k + t).substring(0, t.length);
+                for(let i=0; i<t.length; i++) res += String.fromCharCode((t.charCodeAt(i)-65 + fk.charCodeAt(i)-65)%26+65);
+            } else {
+                for(let i=0; i<t.length; i++) {
+                    let c = String.fromCharCode((t.charCodeAt(i)-fk.charCodeAt(i)+26)%26+65);
+                    res += c; fk += c;
+                }
+            } return res;
+        }
+        function doMono(t, k, enc) {
+            const a = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; if (k.length !== 26) throw new Error("Key must be 26 unique letters");
+            return t.toUpperCase().replace(/[A-Z]/g, c => enc ? k.toUpperCase()[a.indexOf(c)] : a[k.toUpperCase().indexOf(c)]);
+        }
+        function doVigenere(t, k, enc) {
+            t = t.toUpperCase().replace(/[^A-Z]/g, ''); k = k.toUpperCase().replace(/[^A-Z]/g, '');
+            return t.split('').map((c, i) => {
+                let s = k.charCodeAt(i % k.length) - 65; return String.fromCharCode((c.charCodeAt(0)-65+(enc?s:26-s))%26+65);
+            }).join('');
+        }
+        function doPlayfair(t, k, enc) {
+            t = t.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            k = [...new Set((k.toUpperCase() + "ABCDEFGHIKLMNOPQRSTUVWXYZ").replace(/J/g, 'I').replace(/[^A-Z]/g, ''))].slice(0, 25);
+            let pairs = []; for (let i = 0; i < t.length; i += 2) {
+                let a = t[i], b = t[i + 1] || 'X'; if (a === b) { pairs.push(a + 'X'); i--; } else pairs.push(a + b);
+            }
+            return pairs.map(p => {
+                let r1 = Math.floor(k.indexOf(p[0])/5), c1 = k.indexOf(p[0])%5, r2 = Math.floor(k.indexOf(p[1])/5), c2 = k.indexOf(p[1])%5;
+                if (r1 === r2) return k[r1*5+(c1+(enc?1:4))%5] + k[r2*5+(c2+(enc?1:4))%5];
+                if (c1 === c2) return k[((r1+(enc?1:4))%5)*5+c1] + k[((r2+(enc?1:4))%5)*5+c2];
+                return k[r1*5+c2] + k[r2*5+c1];
+            }).join('');
+        }
+        function doRailFence(t, k, enc) {
+            let r = parseInt(k); if(isNaN(r)) return t;
+            if (enc) {
+                let f = Array.from({length: r}, () => ""); for(let i=0; i<t.length; i++) f[i % r] += t[i]; return f.join('');
+            } else {
+                let len = t.length, rows = [], pos = 0;
+                for(let i=0; i<r; i++) {
+                    let rowLen = Math.floor(len/r) + (i < len%r ? 1 : 0); rows.push(t.substring(pos, pos+rowLen)); pos += rowLen;
+                }
+                let res = ""; for(let i=0; i<len; i++) res += rows[i % r][Math.floor(i / r)]; return res;
+            }
+        }
+        function doTransposition(t, k, enc) {
+            if(!k) return t;
+            let order = k.split('').map((c, i) => ({c, i})).sort((a,b) => a.c.localeCompare(b.c)).map(v => v.i);
+            if (enc) {
+                while(t.length % k.length !== 0) t += "X";
+                let res = ""; for(let i of order) for(let j=i; j<t.length; j+=k.length) res += t[j]; return res;
+            } else {
+                let numRows = t.length / k.length, res = new Array(t.length), pos = 0;
+                for(let i of order) for(let j=0; j<numRows; j++) res[i + j*k.length] = t[pos++]; return res.join('');
+            }
+        }
+        function doXOR(t, k) {
+            return t.split('').map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ k.charCodeAt(i % k.length))).join('');
+        }
+        function doRSA(t, k, enc) {
+            try {
+                let [eOrD, n] = k.split(',').map(num => BigInt(num.trim()));
+                const power = (b, e, m) => {
+                    let r = 1n; b %= m; while (e > 0n) { if (e % 2n === 1n) r = (r * b) % m; b = (b * b) % m; e /= 2n; } return r;
+                };
+                if (enc) return t.split('').map(c => power(BigInt(c.charCodeAt(0)), eOrD, n)).join(' ');
+                return t.trim().split(' ').map(num => String.fromCharCode(Number(power(BigInt(num), eOrD, n)))).join('');
+            } catch(e) { return "RSA Format Error (e,n)"; }
+        }
+    </script>
+</body>
+</html>

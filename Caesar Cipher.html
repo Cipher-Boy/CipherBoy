@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher | Module 01 - Lesson 01</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">Caesar Cipher</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 01 / Lesson 01</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Visual Explanation</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/1mMtFsgkT3rNSlcnMmdON3zlD8c15nz1Y/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-info-circle"></i> <span data-i18n="theory_heading">Theoretical Concept</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    The Caesar Cipher is a type of <strong>Substitution Cipher</strong>. It works by shifting each character of the message by a fixed number of positions (called the 'Key') in the alphabet.
+                </p>
+                
+                <br>
+                <h4 style="color: #fff;" data-i18n="math_rule">Mathematical Rule:</h4>
+                <div style="background: #000; padding: 20px; border-radius: 10px; text-align: center; margin: 15px 0; color: var(--glow-color); font-family: 'Courier New', monospace; border: 1px solid #333;">
+                    Encryption: E(x) = (x + k) mod 26 <br>
+                    Decryption: D(x) = (x - k) mod 26
+                </div>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_2">
+                    For example, with a shift of 3, 'A' becomes 'D'. Despite its historical significance, it is very easy to break using brute force or frequency analysis.
+                </p>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation</span></h3>
+            <pre><code>def caesar_cipher(text, shift, mode='encrypt'):
+    result = ""
+    if mode == 'decrypt':
+        shift = -shift
+    
+    for char in text:
+        if char.isalpha():
+            start = ord('A') if char.isupper() else ord('a')
+            new_char = chr((ord(char) - start + shift) % 26 + start)
+            result += new_char
+        else:
+            result += char
+    return result
+
+# Usage
+msg = "CipherBoy"
+encrypted = caesar_cipher(msg, 3, 'encrypt')
+print(f"Encrypted: {encrypted}")</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container"></div>
+
+            <div class="lesson-nav">
+                <a href="module-classic.html" class="btn-action" style="padding: 10px 20px;" data-i18n="back_to_mod">← Back to Module</a>
+                <a href="Autokey Cipher.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            ls_title: "تشفير القيصر (Caesar Cipher)",
+            video_heading: "الشرح المرئي",
+            theory_heading: "المفهوم النظري",
+            ls_desc_1: "تشفير القيصر هو نوع من أنواع <strong>تشفير الاستبدال</strong>. يعتمد على إزاحة كل حرف في الرسالة بعدد ثابت من المواقع (يسمى المفتاح) في الأبجدية.",
+            math_rule: "القاعدة الرياضية:",
+            ls_desc_2: "على سبيل المثال، بإزاحة قدرها 3، يصبح حرف 'A' هو 'D'. على الرغم من أهميته التاريخية، إلا أنه من السهل جداً كسر هذا التشفير.",
+            python_heading: "تطبيق الخوارزمية ببايثون",
+            back_to_mod: "← العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار سريع - Checkpoint"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "Caesar Cipher",
+            video_heading: "Visual Explanation",
+            theory_heading: "Theoretical Concept",
+            ls_desc_1: "The Caesar Cipher is a type of <strong>Substitution Cipher</strong>. It works by shifting each character of the message by a fixed number of positions in the alphabet.",
+            math_rule: "Mathematical Rule:",
+            ls_desc_2: "For example, with a shift of 3, 'A' becomes 'D'. Despite its historical significance, it is very easy to break.",
+            python_heading: "Python Implementation",
+            back_to_mod: "← Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "Lesson Quiz - Checkpoint"
+        });
+
+        const lessonQuiz = [
+            { question: "What is the main technique used in Caesar Cipher?", options: ["Transposition", "Substitution", "Hashing", "Asymmetric Encryption"], correct: 1 },
+            { question: "In the mathematical formula, what does 'mod 26' ensure?", options: ["Higher security", "The result stays within alphabet range", "Message compression", "Speed"], correct: 1 },
+            { question: "Using a shift (key) of 3, what is the encryption of 'APPLE'?", options: ["DSSOH", "BQQMF", "DRROH", "EQQPI"], correct: 0 },
+            { question: "Caesar Cipher is also known as...?", options: ["Block Cipher", "Shift Cipher", "Public Key Cipher", "Matrix Cipher"], correct: 1 },
+            { question: "Is Caesar Cipher considered secure for modern communication?", options: ["Yes, very secure", "No, it's easily cracked", "Only for Arabic language", "Only if the key is large"], correct: 1 }
+        ];
+
+        window.onload = () => { renderQuiz(lessonQuiz); };
+    </script>
+</body>
+</html>

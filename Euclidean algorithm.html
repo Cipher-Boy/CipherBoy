@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euclidean Algorithm | Module 02 - Lesson 02</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">Euclidean Algorithm</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 02 / Lesson 02</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Detailed Process Video</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/15EskppcbNsQfj73dBB7rwiRw5AOc2Bpi/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-project-diagram"></i> <span data-i18n="theory_heading">Finding the Greatest Common Divisor</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    The Euclidean Algorithm is an ancient and elegant method for finding the Greatest Common Divisor (GCD) of two numbers. It works by repeatedly dividing the larger number by the smaller one and taking the remainder until the remainder becomes zero.
+                </p>
+
+                <div style="background: rgba(69, 255, 69, 0.05); border: 1px solid var(--glow-color); padding: 25px; border-radius: 10px; margin: 30px 0;">
+                    <h4 style="color: #fff; margin-bottom: 15px;" data-i18n="process_title">The Basic Process:</h4>
+                    <p style="color: #ccc; line-height: 1.8;" data-i18n="process_steps">
+                        To find GCD(a, b) where a ≥ b: <br>
+                        1. Divide <strong>a</strong> by <strong>b</strong> to get remainder <strong>r</strong>.<br>
+                        2. If <strong>r = 0</strong>, then <strong>b</strong> is the GCD.<br>
+                        3. If <strong>r > 0</strong>, repeat the process with <strong>b</strong> and <strong>r</strong>.
+                    </p>
+                </div>
+
+                
+                <h4 style="color: #fff;" data-i18n="core_rules_title">Core Rules:</h4>
+                <ul style="color: #aaa; padding-left: 20px; line-height: 1.8;">
+                    <li data-i18n="rule_1">Replace the larger number with the smaller number in each step.</li>
+                    <li data-i18n="rule_2">Replace the smaller number with the remainder.</li>
+                    <li data-i18n="rule_3">The last non-zero remainder is the GCD.</li>
+                </ul>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation (Iterative)</span></h3>
+            <pre><code>def find_gcd(a, b):
+    while b != 0:
+        # a becomes b, b becomes the remainder (a % b)
+        a, b = b, a % b
+    return a
+
+# Example Trace: GCD(48, 18)
+# 48 % 18 = 12 -> (18, 12)
+# 18 % 12 = 6  -> (12, 6)
+# 12 % 6 = 0   -> (6, 0)
+# GCD is 6
+
+num1, num2 = 48, 18
+print(f"The GCD of {num1} and {num2} is: {find_gcd(num1, num2)}")</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container"></div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="Division Algorithm.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-math.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="GCD.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">© 2026 CipherBoy Intelligence System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            ls_title: "خوارزمية إقليدس (Euclidean Algorithm)",
+            video_heading: "فيديو العملية التفصيلي",
+            theory_heading: "إيجاد القاسم المشترك الأكبر",
+            ls_desc_1: "خوارزمية إقليدس هي طريقة قديمة وأنيقة لإيجاد القاسم المشترك الأكبر (GCD) لعددين. وتعتمد على تكرار قسمة العدد الأكبر على الأصغر وأخذ الباقي حتى يصبح الباقي صفراً.",
+            process_title: "العملية الأساسية:",
+            process_steps: "لإيجاد GCD(a, b) حيث a ≥ b: <br> 1. اقسم <strong>a</strong> على <strong>b</strong> للحصول على الباقي <strong>r</strong>. <br> 2. إذا كان <strong>r = 0</strong>، فإن <strong>b</strong> هو القاسم المشترك الأكبر. <br> 3. إذا كان <strong>r > 0</strong>، كرر العملية باستخدام <strong>b</strong> و <strong>r</strong>.",
+            core_rules_title: "القواعد الأساسية:",
+            rule_1: "استبدال العدد الأكبر بالعدد الأصغر في كل خطوة.",
+            rule_2: "استبدال العدد الأصغر بباقي القسمة.",
+            rule_3: "آخر باقي قسمة غير صفري هو GCD.",
+            python_heading: "تطبيق الخوارزمية ببايثون (التكراري)",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار مهارات إقليدس"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "Euclidean Algorithm",
+            video_heading: "Detailed Process Video",
+            theory_heading: "Finding the Greatest Common Divisor",
+            ls_desc_1: "The Euclidean Algorithm is an ancient and elegant method for finding the Greatest Common Divisor (GCD) of two numbers. It works by repeatedly dividing the larger number by the smaller one and taking the remainder.",
+            process_title: "The Basic Process:",
+            process_steps: "To find GCD(a, b) where a ≥ b: 1. Divide a by b to get r. 2. If r = 0, b is GCD. 3. If r > 0, repeat with b and r.",
+            core_rules_title: "Core Rules:",
+            rule_1: "Replace larger number with smaller one.",
+            rule_2: "Replace smaller number with remainder.",
+            rule_3: "Last non-zero remainder is the GCD.",
+            python_heading: "Python Implementation (Iterative)",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "Euclidean Skill Check"
+        });
+
+        const euclideanQuiz = [
+            {
+                question: "What is the primary goal of the Euclidean Algorithm?",
+                options: ["To find prime factors", "To find the Greatest Common Divisor (GCD)", "To perform fast multiplication", "To encrypt data"],
+                correct: 1
+            },
+            {
+                question: "When does the iterative process of the Euclidean Algorithm stop?",
+                options: ["When the remainder is 1", "When the quotient is 0", "When the remainder is 0", "After 10 steps"],
+                correct: 2
+            },
+            {
+                question: "What is the GCD(10, 5)?",
+                options: ["1", "2", "5", "10"],
+                correct: 2
+            },
+            {
+                question: "If GCD(a, b) = 1, it means the two numbers are:",
+                options: ["Even", "Negative", "Relatively Prime (Coprime)", "Equal"],
+                correct: 2
+            },
+            {
+                question: "Which operation is used repeatedly in this algorithm?",
+                options: ["Addition", "Square root", "Modulo (Remainder)", "Exponentiation"],
+                correct: 2
+            }
+        ];
+
+        window.onload = () => { renderQuiz(euclideanQuiz); };
+    </script>
+</body>
+</html>

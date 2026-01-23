@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematical Logic | CipherBoy Academy</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        main { padding-top: 140px !important; }
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        .lesson-item {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+        }
+        .lesson-item:hover {
+            border-color: var(--glow-color);
+            box-shadow: 0 0 20px rgba(69, 255, 69, 0.2);
+            transform: translateY(-8px);
+        }
+        .lesson-item i {
+            font-size: 2.5rem;
+            color: var(--glow-color);
+            margin-bottom: 20px;
+            text-shadow: var(--text-glow);
+        }
+        .lesson-item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .lesson-status {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--glow-color);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="section-header" style="text-align: center;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow); font-size: 3rem;" data-i18n="mod_math_title">MATHEMATICAL LOGIC</h1>
+            <p style="color: #888; font-size: 1.1rem; margin-top: 10px;" data-i18n="mod_math_subtitle">The core number theory behind cryptographic security</p>
+        </div>
+
+        <div class="lessons-grid">
+            
+            <div class="lesson-item">
+                <div class="lesson-status">Module 02 / Lesson 01</div>
+                <i class="fas fa-divide"></i>
+                <h3 data-i18n="ls_division">Division Algorithm</h3>
+                <a href="Division Algorithm.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 02 / Lesson 02</div>
+                <i class="fas fa-project-diagram"></i>
+                <h3 data-i18n="ls_euclidean">Euclidean Algorithm</h3>
+                <a href="Euclidean algorithm.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 02 / Lesson 03</div>
+                <i class="fas fa-calculator"></i>
+                <h3 data-i18n="ls_gcd">GCD Algorithm</h3>
+                <a href="GCD.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 02 / Lesson 04</div>
+                <i class="fas fa-infinity"></i>
+                <h3 data-i18n="ls_gfp">GF(P) Fields</h3>
+                <a href="GF(P).html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 02 / Lesson 05</div>
+                <i class="fas fa-superscript"></i>
+                <h3 data-i18n="ls_fermat">Fermat's Theorem</h3>
+                <a href="Fermat's Little Theorem.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 02 / Lesson 06</div>
+                <i class="fas fa-search"></i>
+                <h3 data-i18n="ls_miller">Miller-Rabin</h3>
+                <a href="Miller rabin algorithm.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+            <div class="lesson-item">
+                <div class="lesson-status">Module 02 / Lesson 07</div>
+                <i class="fas fa-square-root-alt"></i>
+                <h3 data-i18n="ls_polymath">Polynomial Logic</h3>
+                <a href="Polynomial algorithm.html" class="btn-action" style="font-size: 0.8rem;" data-i18n="start_lesson">Start Lesson</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <img src="logo.png" style="height: 60px; margin-bottom: 20px;" alt="CipherBoy">
+            <div style="margin-bottom: 20px;">
+                <a href="aboutus.html" style="color: #888; text-decoration: none;" data-i18n="about">About Us</a> | 
+                <a href="terms.html" style="color: #888; text-decoration: none; margin-left: 15px;" data-i18n="terms">Terms & Conditions</a>
+            </div>
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">CipherBoy Intelligence System © 2026</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            mod_math_title: "المنطق الرياضي",
+            mod_math_subtitle: "جوهر نظرية الأعداد وراء الأمن التشفيري",
+            start_lesson: "ابدأ الدرس",
+            ls_division: "خوارزمية القسمة",
+            ls_euclidean: "خوارزمية إقليدس",
+            ls_gcd: "القاسم المشترك (GCD)",
+            ls_gfp: "حقول GF(P)",
+            ls_fermat: "نظرية فيرما الصغرى",
+            ls_miller: "اختبار ميلر-رابين",
+            ls_polymath: "خوارزمية الحدود"
+        });
+
+        Object.assign(translations.en, {
+            mod_math_title: "MATHEMATICAL LOGIC",
+            mod_math_subtitle: "The core number theory behind cryptographic security",
+            start_lesson: "Start Lesson",
+            ls_division: "Division Algorithm",
+            ls_euclidean: "Euclidean Algorithm",
+            ls_gcd: "GCD Algorithm",
+            ls_gfp: "GF(P) Fields",
+            ls_fermat: "Fermat's Theorem",
+            ls_miller: "Miller-Rabin",
+            ls_polymath: "Polynomial Logic"
+        });
+    </script>
+</body>
+</html>

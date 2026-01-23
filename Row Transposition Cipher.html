@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Row Transposition Cipher | Module 01 - Lesson 08</title>
+    <link rel="icon" href="https://i.postimg.cc/j5gZcH6C/1736013247206.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="logo.png" alt="CipherBoy"></a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="home">Home</a></li>
+                    <li><a href="learning.html" class="active" data-i18n="learning">Learning</a></li>
+                    <li><a href="cipher.html" data-i18n="nav_tool">Cipher Tool</a></li>
+                    <li><a href="aboutus.html" data-i18n="about">About</a></li>
+                    <li><button id="lang-toggle" class="btn-action" style="padding: 3px 12px; font-size: 0.8rem;">AR/EN</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: var(--glow-color); text-shadow: var(--text-glow);" data-i18n="ls_title">Row Transposition Cipher</h1>
+            <p style="color: #888;" data-i18n="ls_subtitle">Module 01 / Lesson 08</p>
+        </div>
+
+        <div class="lesson-main-card">
+            
+            <h3 style="color: #fff; margin-bottom: 20px;"><i class="fas fa-video"></i> <span data-i18n="video_heading">Video Tutorial</span></h3>
+            <div class="video-wrapper">
+                <iframe src="https://drive.google.com/file/d/1WOlcuMRzIekTlK4VfOb4nKvWwNf53Sl3/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="lesson-content">
+                <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fas fa-table"></i> <span data-i18n="theory_heading">The Matrix Permutation</span></h3>
+                <p style="font-size: 1.1rem; color: #ccc;" data-i18n="ls_desc_1">
+                    Row Transposition is a much stronger transposition cipher than Rail Fence. It involves writing the plaintext in a grid row by row, and then reading the ciphertext column by column, but in a specific order determined by a <strong>Keyword</strong>.
+                </p>
+                
+                
+
+                <br>
+                <h4 style="color: #fff;" data-i18n="steps_title">Step-by-Step Process:</h4>
+                <ol style="color: #aaa; padding-left: 20px; line-height: 1.8;">
+                    <li data-i18n="step_1">Pick a keyword (e.g., "HACK").</li>
+                    <li data-i18n="step_2">Number the letters of the keyword based on their alphabetical order (A=1, C=2, H=3, K=4).</li>
+                    <li data-i18n="step_3">Write the message in rows under these numbers.</li>
+                    <li data-i18n="step_4">Read off the columns starting from column 1, then column 2, and so on.</li>
+                </ol>
+
+                <div style="background: rgba(69, 255, 69, 0.05); border: 1px solid var(--glow-color); padding: 25px; border-radius: 10px; margin: 30px 0; font-family: 'Courier New', monospace;">
+                    <h4 style="color: #fff; margin-bottom: 20px; text-align: center;" data-i18n="example_title">Example: "CIPHERBOY" (Key: 3 1 4 2)</h4>
+                    <div style="display: flex; justify-content: center; gap: 40px; color: var(--glow-color); font-size: 1.2rem; text-align: center;">
+                        <div>
+                            <span style="color: #fff;">Key Order:</span><br>
+                            3 &nbsp; 1 &nbsp; 4 &nbsp; 2<hr style="border-color: #333;">
+                            C &nbsp; I &nbsp; P &nbsp; H<br>
+                            E &nbsp; R &nbsp; B &nbsp; O<br>
+                            Y &nbsp; X &nbsp; X &nbsp; X
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 20px; color: #fff;">
+                        Result (Read Col 1, then 2, 3, 4): <strong style="color: var(--glow-color);">"IRXHOXCEYPBX"</strong>
+                    </p>
+                </div>
+            </div>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <h3 style="color: var(--glow-color); margin-bottom: 15px;"><i class="fab fa-python"></i> <span data-i18n="python_heading">Python Implementation</span></h3>
+            <pre><code>def row_transposition_encrypt(text, key):
+    # Determine order based on keyword alphabetization
+    order = sorted(range(len(key)), key=lambda k: key[k])
+    
+    # Padding if necessary
+    while len(text) % len(key) != 0:
+        text += 'X'
+        
+    # Build columns based on the order
+    ciphertext = ""
+    for index in order:
+        for i in range(index, len(text), len(key)):
+            ciphertext += text[i]
+            
+    return ciphertext
+
+# Usage
+print(row_transposition_encrypt("CIPHERBOY", "HACK"))</code></pre>
+
+            <hr style="border: 1px solid var(--border-color); margin: 40px 0;">
+
+            <div id="quiz-container" class="quiz-container">
+                </div>
+
+            <div class="lesson-nav" style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <a href="Rail Fence Cipher.html" class="btn-action" style="padding: 10px 20px;" data-i18n="prev_ls">← Previous Lesson</a>
+                <a href="module-classic.html" class="btn-action" style="padding: 10px 20px; border-color: var(--glow-color);" data-i18n="back_to_mod">Back to Module</a>
+                <a href="Vernam Cipher.html" class="btn-action" style="padding: 10px 20px; border-color: #fff; color: #fff;" data-i18n="next_ls">Next Lesson →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="color: #444; font-size: 0.8rem;" data-i18n="rights">© 2025 Ghassan Al-Najjar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        Object.assign(translations.ar, {
+            ls_title: "تشفير نقل الصفوف (Row Transposition)",
+            video_heading: "فيديو الشرح",
+            theory_heading: "تبديل المصفوفة",
+            ls_desc_1: "تشفير نقل الصفوف هو تشفير نقل أقوى بكثير من سياج السكة. يتضمن كتابة النص الصريح في شبكة صفاً بصف، ثم قراءة النص المشفر عموداً بعمود، ولكن بترتيب محدد تحدده الكلمة المفتاحية.",
+            steps_title: "العملية خطوة بخطوة:",
+            step_1: "اختر كلمة مفتاحية (مثل: 'HACK').",
+            step_2: "رقم أحرف الكلمة المفتاحية بناءً على ترتيبها الأبجدي.",
+            step_3: "اكتب الرسالة في صفوف تحت هذه الأرقام.",
+            step_4: "اقرأ الأعمدة بدءاً من العمود 1، ثم العمود 2، وهكذا.",
+            example_title: "مثال: 'CIPHERBOY' (المفتاح: 3 1 4 2)",
+            python_heading: "تطبيق الخوارزمية ببايثون",
+            prev_ls: "← الدرس السابق",
+            back_to_mod: "العودة للموديل",
+            next_ls: "الدرس التالي →",
+            quiz_title: "اختبار سريع لدرس نقل الصفوف"
+        });
+
+        Object.assign(translations.en, {
+            ls_title: "Row Transposition Cipher",
+            video_heading: "Video Tutorial",
+            theory_heading: "The Matrix Permutation",
+            ls_desc_1: "Row Transposition is a transposition cipher where the message is written row by row and read column by column based on a keyword.",
+            steps_title: "Step-by-Step Process:",
+            step_1: "Pick a keyword.",
+            step_2: "Assign numbers to keyword letters alphabetically.",
+            step_3: "Write message in rows.",
+            step_4: "Read columns in numeric order.",
+            example_title: "Example: 'CIPHERBOY' (Key: 3 1 4 2)",
+            python_heading: "Python Implementation",
+            prev_ls: "← Previous Lesson",
+            back_to_mod: "Back to Module",
+            next_ls: "Next Lesson →",
+            quiz_title: "Row Transposition Checkpoint Quiz"
+        });
+
+        const rowQuiz = [
+            {
+                question: "In Row Transposition, the keyword is used to determine:",
+                options: ["Alphabet shift", "Column reading order", "Number of rows only", "Encryption speed"],
+                correct: 1
+            },
+            {
+                question: "If a keyword is 'CAT', the alphabetical order (key numbers) will be:",
+                options: ["1 2 3", "2 1 3", "3 2 1", "1 3 2"],
+                correct: 1
+            },
+            {
+                question: "What happens if the message doesn't perfectly fill the grid?",
+                options: ["It is deleted", "Null characters (like X) are added", "The grid size changes", "The key is ignored"],
+                correct: 1
+            },
+            {
+                question: "How is the plaintext written into the grid?",
+                options: ["Diagonally", "Column by column", "Row by row", "Randomly"],
+                correct: 2
+            },
+            {
+                question: "How is the ciphertext read from the grid?",
+                options: ["Row by row", "In a zigzag pattern", "Column by column based on the key", "From bottom to top"],
+                correct: 2
+            }
+        ];
+
+        window.onload = () => {
+            renderQuiz(rowQuiz);
+        };
+    </script>
+</body>
+</html>
